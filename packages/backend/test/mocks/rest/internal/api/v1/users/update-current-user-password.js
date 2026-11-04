@@ -7,7 +7,6 @@ const updateCurrentUserPasswordMock = (currentUser) => {
       id: currentUser.id,
       status: currentUser.status,
       updatedAt: currentUser.updatedAt.getTime(),
-      trialExpiryDate: currentUser.trialExpiryDate?.toISOString(),
     },
     meta: {
       count: 1,

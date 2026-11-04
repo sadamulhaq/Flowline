@@ -2,7 +2,6 @@ import { ValidationError } from 'objection';
 import Base from '@/models/base.js';
 import Permission from '@/models/permission.js';
 import User from '@/models/user.js';
-import SamlAuthProvider from '@/models/saml-auth-provider.ee.js';
 import NotAuthorizedError from '@/errors/not-authorized.js';
 
 class Role extends Base {
@@ -60,55 +59,6 @@ class Role extends Base {
     }
   }
 
-  async deletePermissions() {
-    return await this.$relatedQuery('permissions').delete();
-  }
-
-  async createPermissions(permissions) {
-    if (permissions?.length) {
-      const validPermissions = Permission.filter(permissions).map(
-        (permission) => ({
-          ...permission,
-          roleId: this.id,
-        })
-      );
-
-      await Permission.query().insert(validPermissions);
-    }
-  }
-
-  async updatePermissions(permissions) {
-    await this.deletePermissions();
-
-    await this.createPermissions(permissions);
-  }
-
-  async updateWithPermissions(data) {
-    const { name, description, permissions } = data;
-
-    await this.updatePermissions(permissions);
-
-    await this.$query().patchAndFetch({
-      id: this.id,
-      name,
-      description,
-    });
-
-    return await this.$query()
-      .leftJoinRelated({
-        permissions: true,
-      })
-      .withGraphFetched({
-        permissions: true,
-      });
-  }
-
-  async deleteWithPermissions() {
-    await this.deletePermissions();
-
-    return await this.$query().delete();
-  }
-
   async assertNoRoleUserExists() {
     const userCount = await this.$relatedQuery('users').limit(1).resultSize();
     const hasUsers = userCount > 0;
@@ -127,33 +77,8 @@ class Role extends Base {
     }
   }
 
-  async assertNoConfigurationUsage() {
-    const samlAuthProviderUsingDefaultRole = await SamlAuthProvider.query()
-      .where({
-        default_role_id: this.id,
-      })
-      .limit(1)
-      .first();
-
-    if (samlAuthProviderUsingDefaultRole) {
-      throw new ValidationError({
-        data: {
-          samlAuthProvider: [
-            {
-              message:
-                'You need to change the default role in the SAML configuration before deleting this role.',
-            },
-          ],
-        },
-        type: 'ValidationError',
-      });
-    }
-  }
-
   async assertRoleIsNotUsed() {
     await this.assertNoRoleUserExists();
-
-    await this.assertNoConfigurationUsage();
   }
 
   async $beforeUpdate(opt, queryContext) {

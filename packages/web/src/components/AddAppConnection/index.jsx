@@ -1,4 +1,3 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
@@ -11,13 +10,9 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import InputCreator from 'components/InputCreator';
-import AppOAuthClientsDialog from 'components/OAuthClientsDialog/index.ee';
-import * as URLS from 'config/urls';
 import { generateExternalLink } from 'helpers/translationValues';
 import useAppAuth from 'hooks/useAppAuth';
-import useAppConfig from 'hooks/useAppConfig.ee';
-import useAuthenticateApp from 'hooks/useAuthenticateApp.ee';
-import useEnqueueSnackbar from 'hooks/useEnqueueSnackbar';
+import useAuthenticateApp from 'hooks/useAuthenticateApp';
 import useFormatMessage from 'hooks/useFormatMessage';
 import useUpdateConnection from 'hooks/useUpdateConnection';
 import { AppPropType } from 'propTypes/propTypes';
@@ -53,24 +48,16 @@ function AddAppConnection(props) {
   const { application, connectionId, onClose } = props;
   const { name, authDocUrl, key } = application;
   const { data: auth } = useAppAuth(key);
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const formatMessage = useFormatMessage();
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [errorDetails, setErrorDetails] = React.useState(null);
   const [inProgress, setInProgress] = React.useState(false);
   const hasConnection = Boolean(connectionId);
-  const useShared = searchParams.get('shared') === 'true';
-  const oauthClientId = searchParams.get('oauthClientId') || undefined;
   const { authenticate } = useAuthenticateApp({
     appKey: key,
     connectionId,
-    oauthClientId,
-    useShared: !!oauthClientId,
   });
   const queryClient = useQueryClient();
-  const enqueueSnackbar = useEnqueueSnackbar();
-  const { data: appConfig } = useAppConfig(key);
   const { mutateAsync: updateConnection } = useUpdateConnection();
 
   React.useEffect(function relayProviderData() {
@@ -102,34 +89,6 @@ function AddAppConnection(props) {
     }
   }, []);
 
-  React.useEffect(
-    function initiateSharedAuthenticationForGivenOAuthClient() {
-      if (!oauthClientId) return;
-
-      if (!authenticate) return;
-
-      const asyncAuthenticate = async () => {
-        try {
-          await authenticate();
-          navigate(URLS.APP_CONNECTIONS(key));
-        } catch (error) {
-          enqueueSnackbar(error?.message || formatMessage('genericError'), {
-            variant: 'error',
-          });
-        }
-      };
-
-      asyncAuthenticate();
-    },
-    [oauthClientId, authenticate, key, navigate],
-  );
-
-  const handleClientClick = (oauthClientId) =>
-    navigate(URLS.APP_ADD_CONNECTION_WITH_OAUTH_CLIENT_ID(key, oauthClientId));
-
-  const handleOAuthClientsDialogClose = () =>
-    navigate(URLS.APP_CONNECTIONS(key));
-
   const submitHandler = React.useCallback(
     async (data) => {
       if (!authenticate) return;
@@ -158,17 +117,6 @@ function AddAppConnection(props) {
     },
     [authenticate, key, onClose, queryClient],
   );
-
-  if (useShared)
-    return (
-      <AppOAuthClientsDialog
-        appKey={key}
-        onClose={handleOAuthClientsDialogClose}
-        onClientClick={handleClientClick}
-      />
-    );
-
-  if (oauthClientId) return <React.Fragment />;
 
   return (
     <Dialog
@@ -219,7 +167,7 @@ function AddAppConnection(props) {
               color="primary"
               sx={{ boxShadow: 2 }}
               loading={inProgress}
-              disabled={!authenticate || appConfig?.data?.disabled === true}
+              disabled={!authenticate}
               data-test="create-connection-button"
             >
               {formatMessage('addAppConnection.submit')}

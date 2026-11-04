@@ -9,8 +9,6 @@ import { createConnection } from '@/factories/connection.js';
 import { createFlow } from '@/factories/flow.js';
 import { createStep } from '@/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 import { waitFlowWorkerJobs, runFlowWorkerJobs } from '@/test/workers/flow.js';
 
 describe.sequential('Built-in webhook app async with delay for', () => {
@@ -358,25 +356,5 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
-  });
-
-  it('should respond with 422 if it is cloud and quota is exceeded', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-    vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-    const timeBeforeTheRequest = new Date();
-
-    const response = await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=flowline`
-    );
-
-    expect(response.status).toBe(422);
-
-    const execution = await Execution.query()
-      .where('flowId', flow.id)
-      .andWhere('createdAt', '>', timeBeforeTheRequest.toISOString())
-      .first();
-
-    expect(execution).toBeUndefined();
   });
 });

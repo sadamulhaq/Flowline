@@ -11,17 +11,14 @@ import SplitButton from 'components/SplitButton';
 import * as URLS from 'config/urls';
 import useCurrentUserAbility from 'hooks/useCurrentUserAbility';
 import useFormatMessage from 'hooks/useFormatMessage';
-import useFlowlineConfig from 'hooks/useFlowlineConfig';
 
 export default function FlowsButtons() {
   const location = useLocation();
   const formatMessage = useFormatMessage();
   const currentUserAbility = useCurrentUserAbility();
   const theme = useTheme();
-  const { data: config } = useFlowlineConfig();
   const matchSmallScreens = useMediaQuery(theme.breakpoints.down('md'));
   const canCreateFlow = currentUserAbility.can('manage', 'Flow');
-  const enableTemplates = config?.data.enableTemplates === true;
 
   const createFlowButtonData = {
     label: formatMessage('flows.createFlow'),
@@ -29,14 +26,6 @@ export default function FlowsButtons() {
     'data-test': 'create-flow-button',
     to: URLS.CREATE_FLOW,
     startIcon: <AddIcon />,
-  };
-
-  const createFlowFromTemplateButtonData = {
-    label: formatMessage('flows.createFlowFromTemplate'),
-    key: 'createFlowFromTemplate',
-    'data-test': 'create-flow-from-template-button',
-    hide: !enableTemplates,
-    to: URLS.VIEW_TEMPLATES,
   };
 
   const importFlowButtonData = {
@@ -47,11 +36,7 @@ export default function FlowsButtons() {
   };
 
   if (matchSmallScreens) {
-    const connectionOptions = [
-      createFlowButtonData,
-      createFlowFromTemplateButtonData,
-      importFlowButtonData,
-    ].filter((option) => !option.hide);
+    const connectionOptions = [createFlowButtonData, importFlowButtonData];
 
     return (
       <>
@@ -76,13 +61,7 @@ export default function FlowsButtons() {
         {formatMessage('flows.importFlow')}
       </Button>
 
-      <SplitButton
-        disabled={!canCreateFlow}
-        options={[
-          createFlowButtonData,
-          createFlowFromTemplateButtonData,
-        ].filter((option) => !option.hide)}
-      />
+      <SplitButton disabled={!canCreateFlow} options={[createFlowButtonData]} />
     </>
   );
 }

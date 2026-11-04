@@ -8,9 +8,8 @@ export const verifyWebhookRequest = async (request, response, next) => {
   const triggerStep = await flow.getTriggerStep();
   const app = await triggerStep.getApp();
   const isWebhookApp = app.key === 'webhook';
-  const isFormsApp = app.key === 'forms';
 
-  if (!isWebhookApp && !isFormsApp) {
+  if (!isWebhookApp) {
     const connection = await triggerStep.$relatedQuery('connection');
 
     if (!(await connection.verifyWebhook(request))) {

@@ -99,7 +99,6 @@ function StepDetailsSidebar({ open }) {
     steps,
     selectedStepId,
     onStepChange,
-    onFlowChange,
     flowId,
     onStepSelect,
     onClearSelection,
@@ -157,11 +156,8 @@ function StepDetailsSidebar({ open }) {
       if (changes.step) {
         await onStepChange(changes.step);
       }
-      if (changes.flow && onFlowChange) {
-        onFlowChange(changes.flow);
-      }
     },
-    [onStepChange, onFlowChange],
+    [onStepChange],
   );
 
   const handleStepNameUpdate = useCallback(
@@ -315,7 +311,6 @@ function StepDetailsSidebar({ open }) {
               onCollapse={() => toggleSubstep(0)}
               onSubmit={expandNextStep}
               onStepChange={onStepChange}
-              onFlowChange={onFlowChange}
               step={selectedStep}
               flowId={flowId}
             />

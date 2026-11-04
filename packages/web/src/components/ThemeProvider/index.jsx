@@ -1,79 +1,18 @@
 import PropTypes from 'prop-types';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as BaseThemeProvider } from '@mui/material/styles';
-import clone from 'lodash/clone';
-import set from 'lodash/set';
-import * as React from 'react';
 
 import useFlowlineInfo from 'hooks/useFlowlineInfo';
-import useFlowlineConfig from 'hooks/useFlowlineConfig';
 import { defaultTheme, mationTheme } from 'styles/theme';
 
-const overrideIfGiven = (theme, key, value) => {
-  if (value) {
-    set(theme, key, value);
-  }
-};
-
-const customizeTheme = (theme, config) => {
-  // `clone` is needed so that the new theme reference triggers re-render
-  const shallowDefaultTheme = clone(theme);
-
-  overrideIfGiven(
-    shallowDefaultTheme,
-    'palette.primary.main',
-    config.palettePrimaryMain,
-  );
-
-  overrideIfGiven(
-    shallowDefaultTheme,
-    'palette.primary.light',
-    config.palettePrimaryLight,
-  );
-
-  overrideIfGiven(
-    shallowDefaultTheme,
-    'palette.primary.dark',
-    config.palettePrimaryDark,
-  );
-
-  overrideIfGiven(
-    shallowDefaultTheme,
-    'palette.footer.main',
-    config.footerBackgroundColor,
-  );
-
-  overrideIfGiven(
-    shallowDefaultTheme,
-    'palette.footer.text',
-    config.footerTextColor,
-  );
-
-  return shallowDefaultTheme;
-};
-
 const ThemeProvider = ({ children, ...props }) => {
-  const { data: flowlineInfo, isPending: isFlowlineInfoPending } =
-    useFlowlineInfo();
-  const isMation = flowlineInfo?.data.isMation;
-  const { data: configData, isLoading: configLoading } = useFlowlineConfig();
-  const config = configData?.data;
+  const { data: flowlineInfo, isPending } = useFlowlineInfo();
+  const theme = flowlineInfo?.data.isMation ? mationTheme : defaultTheme;
 
-  const customTheme = React.useMemo(() => {
-    const installationTheme = isMation ? mationTheme : defaultTheme;
-
-    if (configLoading || isFlowlineInfoPending) return installationTheme;
-
-    const customTheme = customizeTheme(installationTheme, config || {});
-
-    return customTheme;
-  }, [configLoading, config, isMation, isFlowlineInfoPending]);
-
-  // TODO: maybe a global loading state for the custom theme?
-  if (isFlowlineInfoPending || configLoading) return <></>;
+  if (isPending) return <></>;
 
   return (
-    <BaseThemeProvider theme={customTheme} {...props}>
+    <BaseThemeProvider theme={theme} {...props}>
       <CssBaseline />
 
       {children}

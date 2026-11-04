@@ -4,14 +4,9 @@ import { ConnectionsPage } from './connections-page';
 import { ExecutionsPage } from './executions-page';
 import { ExecutionDetailsPage } from './execution-details-page';
 import { FlowEditorPage } from './flow-editor-page';
-import { UserInterfacePage } from './user-interface-page';
 import { LoginPage } from './login-page';
-import { AcceptInvitation } from './accept-invitation-page';
-import { adminFixtures } from './admin';
 import { AdminSetupPage } from './admin-setup-page';
-import { AdminCreateUserPage } from './admin/create-user-page';
 import { FlowsPage } from './flows-page';
-import { TemplatesPage } from './templates/templates-page';
 import { StepDetailsSidebar } from './step-details-sidebar';
 
 exports.test = test.extend({
@@ -42,16 +37,9 @@ exports.test = test.extend({
   flowsPage: async ({ page }, use) => {
     await use(new FlowsPage(page));
   },
-  templatesPage: async ({ page }, use) => {
-    await use(new TemplatesPage(page));
-  },
-  userInterfacePage: async ({ page }, use) => {
-    await use(new UserInterfacePage(page));
-  },
   stepDetailsSidebar: async ({ page }, use) => {
     await use(new StepDetailsSidebar(page));
   },
-  ...adminFixtures,
 });
 
 exports.publicTest = test.extend({
@@ -65,17 +53,9 @@ exports.publicTest = test.extend({
 
     await use(loginPage);
   },
-  acceptInvitationPage: async ({ page }, use) => {
-    const acceptInvitationPage = new AcceptInvitation(page);
-    await use(acceptInvitationPage);
-  },
   adminSetupPage: async ({ page }, use) => {
     const adminSetupPage = new AdminSetupPage(page);
     await use(adminSetupPage);
-  },
-  adminCreateUserPage: async ({ page }, use) => {
-    const adminCreateUserPage = new AdminCreateUserPage(page);
-    await use(adminCreateUserPage);
   },
 });
 

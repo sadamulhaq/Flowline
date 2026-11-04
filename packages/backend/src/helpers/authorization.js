@@ -33,10 +33,6 @@ const authorizationList = {
     action: 'manage',
     subject: 'Flow',
   },
-  'GET /internal/api/v1/templates/': {
-    action: 'manage',
-    subject: 'Flow',
-  },
   'GET /internal/api/v1/steps/:stepId/connection': {
     action: 'read',
     subject: 'Flow',
@@ -164,110 +160,6 @@ const authorizationList = {
   'GET /internal/api/v1/flows/:flowId/folder': {
     action: 'read',
     subject: 'Flow',
-  },
-  'GET /internal/api/v1/forms/:formId': {
-    action: 'read',
-    subject: 'Flow',
-  },
-  'GET /internal/api/v1/forms/': {
-    action: 'read',
-    subject: 'Flow',
-  },
-  'POST /internal/api/v1/forms/': {
-    action: 'manage',
-    subject: 'Flow',
-  },
-  'PATCH /internal/api/v1/forms/:formId': {
-    action: 'manage',
-    subject: 'Flow',
-  },
-  'DELETE /internal/api/v1/forms/:formId': {
-    action: 'manage',
-    subject: 'Flow',
-  },
-  'GET /internal/api/v1/mcp-servers/': {
-    action: 'read',
-    subject: 'McpServer',
-  },
-  'POST /internal/api/v1/mcp-servers/': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'GET /internal/api/v1/mcp-servers/:mcpServerId': {
-    action: 'read',
-    subject: 'McpServer',
-  },
-  'PATCH /internal/api/v1/mcp-servers/:mcpServerId': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'DELETE /internal/api/v1/mcp-servers/:mcpServerId': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'GET /internal/api/v1/mcp-servers/:mcpServerId/executions': {
-    action: 'read',
-    subject: 'McpServer',
-  },
-  'GET /internal/api/v1/mcp-servers/:mcpServerId/tools': {
-    action: 'read',
-    subject: 'McpServer',
-  },
-  'POST /internal/api/v1/mcp-servers/:mcpServerId/tools': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'DELETE /internal/api/v1/mcp-servers/:mcpServerId/tools/:mcpToolId': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'POST /internal/api/v1/mcp-servers/:mcpServerId/rotate-token': {
-    action: 'manage',
-    subject: 'McpServer',
-  },
-  'POST /internal/api/v1/agents/': {
-    action: 'manage',
-    subject: 'Agent',
-  },
-  'GET /internal/api/v1/agents/:agentId': {
-    action: 'read',
-    subject: 'Agent',
-  },
-  'DELETE /internal/api/v1/agents/:agentId': {
-    action: 'manage',
-    subject: 'Agent',
-  },
-  'PATCH /internal/api/v1/agents/:agentId': {
-    action: 'manage',
-    subject: 'Agent',
-  },
-  'GET /internal/api/v1/agents/': {
-    action: 'read',
-    subject: 'Agent',
-  },
-  'POST /internal/api/v1/agents/:agentId/test': {
-    action: 'manage',
-    subject: 'Agent',
-  },
-  'GET /internal/api/v1/agents/:agentId/executions': {
-    action: 'read',
-    subject: 'Agent',
-  },
-  'GET /internal/api/v1/agents/:agentId/executions/:executionId': {
-    action: 'read',
-    subject: 'Agent',
-  },
-  'GET /internal/api/v1/agents/:agentId/tools': {
-    action: 'read',
-    subject: 'Agent',
-  },
-  'POST /internal/api/v1/agents/:agentId/tools': {
-    action: 'manage',
-    subject: 'Agent',
-  },
-  'DELETE /internal/api/v1/agents/:agentId/tools/:toolId': {
-    action: 'manage',
-    subject: 'Agent',
   },
 };
 

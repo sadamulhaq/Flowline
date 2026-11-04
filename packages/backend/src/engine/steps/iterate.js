@@ -1,7 +1,6 @@
 import processTriggerStep from '@/engine/trigger/process.js';
 import processActionStep from '@/engine/action/process.js';
 import Engine from '@/engine/index.js';
-import McpToolExecution from '@/models/mcp-tool-execution.ee.js';
 import delayAsMilliseconds from '@/helpers/delay-as-milliseconds.js';
 
 const iterateSteps = async ({
@@ -11,31 +10,24 @@ const iterateSteps = async ({
   actionSteps,
   testRun,
   triggeredByRequest,
-  triggeredByMcp,
   initialDataItem,
   resumeStepId,
   resumeExecutionId,
-  mcpToolId,
 }) => {
   let executionId = resumeExecutionId;
-  let mcpToolExecutionId;
 
   if (!resumeStepId && !resumeExecutionId) {
     const {
       executionId: newExecutionId,
-      mcpToolExecutionId: newMcpToolExecutionId,
       executionStep,
     } = await processTriggerStep({
       flowId: flow.id,
       stepId: triggerStep.id,
       initialDataItem,
-      triggeredByMcp,
-      mcpToolId,
       testRun,
     });
 
     executionId = newExecutionId;
-    mcpToolExecutionId = newMcpToolExecutionId;
 
     if (testRun && triggerStep.id === untilStep.id) {
       return { executionStep };
@@ -65,12 +57,6 @@ const iterateSteps = async ({
     }
 
     if (!testRun && executionStep.isFailed) {
-      if (triggeredByMcp) {
-        return {
-          mcpError: `Flow \`${flow.name}\` execution failed by action step \`${actionStep.key}\`.`,
-        };
-      }
-
       continue;
     }
 
@@ -79,25 +65,14 @@ const iterateSteps = async ({
         return { statusCode: 422 };
       }
 
-      if (triggeredByMcp) {
-        return {
-          mcpError: `Flow \`${flow.name}\` execution stopped by filter step. The input data was filtered out and no further actions were executed.`,
-        };
-      }
-
       break;
     }
 
     const workSynchronously =
-      (triggerStep.appKey === 'webhook' || triggerStep.appKey === 'forms') &&
+      triggerStep.appKey === 'webhook' &&
       triggerStep.parameters.workSynchronously;
 
-    if (
-      !testRun &&
-      actionStep.appKey === 'delay' &&
-      !workSynchronously &&
-      !triggeredByMcp
-    ) {
+    if (!testRun && actionStep.appKey === 'delay' && !workSynchronously) {
       const nextStepId = await actionStep.getNextStep();
 
       if (!nextStepId) {
@@ -127,37 +102,6 @@ const iterateSteps = async ({
         headers,
       };
     }
-  }
-
-  if (triggeredByMcp) {
-    const execution = await flow
-      .$relatedQuery('executions')
-      .findById(executionId);
-
-    const respondWithStep = await flow
-      .$relatedQuery('steps')
-      .where({ app_key: 'mcp', key: 'respondWith' })
-      .first();
-
-    const respondWithExecutionStep = await execution
-      .$relatedQuery('executionSteps')
-      .where({ step_id: respondWithStep.id })
-      .first();
-
-    const mcpToolExecution = await McpToolExecution.query()
-      .where({
-        id: mcpToolExecutionId,
-      })
-      .first();
-
-    await mcpToolExecution
-      .$query()
-      .patchAndFetch({ dataOut: respondWithExecutionStep.dataOut });
-
-    return {
-      mcpSuccess: `Successfully executed flow \`${flow.name}\`.`,
-      mcpData: respondWithExecutionStep.dataOut,
-    };
   }
 
   if (triggeredByRequest) {

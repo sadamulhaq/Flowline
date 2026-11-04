@@ -8,8 +8,6 @@ import { createFlow } from '@/factories/flow.js';
 import { createStep } from '@/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
 import { runFlowWorkerJobs } from '@/test/workers/flow.js';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 
 describe.sequential('Scheduler app with filter', () => {
   let currentUser,
@@ -394,16 +392,5 @@ describe.sequential('Scheduler app with filter', () => {
     });
 
     expect(executionSteps[2].dataOut).toBeNull();
-  });
-
-  it('should not create execution if cloud quota is exceeded', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-    vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-    await runFlowWorkerJobs(flow.id);
-
-    const execution = await Execution.query().where('flowId', flow.id).first();
-
-    expect(execution).toBeUndefined();
   });
 });

@@ -13,10 +13,8 @@ export default function defineTrigger(triggerDefinition) {
   ];
 
   const isSchedulerTrigger = schedulerTriggers.includes(triggerDefinition.key);
-  const isMcpTrigger = triggerDefinition.key === 'mcpTool';
 
-  const haveValidTriggerType =
-    isWebhookOrPoll || isSchedulerTrigger || isMcpTrigger;
+  const haveValidTriggerType = isWebhookOrPoll || isSchedulerTrigger;
 
   if (!haveValidTriggerType) {
     logger.info(triggerDefinition);

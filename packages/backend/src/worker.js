@@ -1,7 +1,4 @@
-import * as Sentry from '@/helpers/sentry.ee.js';
 import process from 'node:process';
-
-Sentry.init();
 
 import '@/config/orm.js';
 import '@/helpers/check-worker-readiness.js';

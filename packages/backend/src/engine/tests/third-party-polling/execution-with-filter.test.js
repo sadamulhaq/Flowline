@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import nock from 'nock';
 import Execution from '@/models/execution.js';
 import { createUser } from '../../../../test/factories/user.js';
@@ -8,8 +8,6 @@ import { createStep } from '../../../../test/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
 import { runFlowWorkerJobs } from '@/test/workers/flow.js';
 import githubNewIssuesResponse from '../api-mocks/github-new-issues.json';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 
 describe.sequential(
   'Third-party app (GitHub) polling async with filter',
@@ -328,22 +326,6 @@ describe.sequential(
           'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
         priority: 3,
       });
-    });
-
-    it('should not create execution if cloud quota is exceeded', async () => {
-      vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-      vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-      const timeBeforePolling = new Date();
-
-      await runFlowWorkerJobs(flow.id);
-
-      const execution = await Execution.query()
-        .where('flowId', flow.id)
-        .andWhere('createdAt', '>', timeBeforePolling.toISOString())
-        .first();
-
-      expect(execution).toBeUndefined();
     });
   }
 );

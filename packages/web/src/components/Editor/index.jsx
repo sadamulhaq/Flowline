@@ -19,7 +19,6 @@ import { debounce } from 'lodash';
 
 import useUpdateStep from 'hooks/useUpdateStep';
 import useCreateStep from 'hooks/useCreateStep';
-import useUpdateFlow from 'hooks/useUpdateFlow';
 import { FlowPropType } from 'propTypes/propTypes';
 
 import { useScrollBoundaries } from './useScrollBoundaries';
@@ -45,7 +44,6 @@ const edgeTypes = {
 
 const Editor = ({ flow }) => {
   const { mutateAsync: updateStep } = useUpdateStep();
-  const { mutateAsync: updateFlow } = useUpdateFlow(flow?.id);
   const queryClient = useQueryClient();
 
   const [nodes, setNodes] = useState([]);
@@ -196,13 +194,6 @@ const Editor = ({ flow }) => {
     [updateStep, queryClient],
   );
 
-  const onFlowChange = useCallback(
-    async (flowData) => {
-      await updateFlow(flowData);
-    },
-    [updateFlow],
-  );
-
   const [initialNodes, setInitialNodes] = useState([]);
   const [initialEdges, setInitialEdges] = useState([]);
 
@@ -330,7 +321,6 @@ const Editor = ({ flow }) => {
     <NodesContext.Provider
       value={{
         onStepChange,
-        onFlowChange,
         onStepDelete,
         onStepSelect,
         onClearSelection,

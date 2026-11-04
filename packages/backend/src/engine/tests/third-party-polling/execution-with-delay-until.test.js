@@ -8,8 +8,6 @@ import { createStep } from '../../../../test/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
 import { runFlowWorkerJobs } from '@/test/workers/flow.js';
 import githubNewIssuesResponse from '../api-mocks/github-new-issues.json';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 import Engine from '@/engine/index.js';
 import { DateTime } from 'luxon';
 
@@ -386,22 +384,6 @@ describe.sequential(
           resumeExecutionId: execution.id,
         })
       );
-    });
-
-    it('should not create execution if cloud quota is exceeded', async () => {
-      vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-      vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-      const timeBeforePolling = new Date();
-
-      await runFlowWorkerJobs(flow.id);
-
-      const execution = await Execution.query()
-        .where('flowId', flow.id)
-        .andWhere('createdAt', '>', timeBeforePolling.toISOString())
-        .first();
-
-      expect(execution).toBeUndefined();
     });
   }
 );

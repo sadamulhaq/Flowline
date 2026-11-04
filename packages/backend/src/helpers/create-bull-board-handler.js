@@ -2,22 +2,11 @@ import { ExpressAdapter } from '@bull-board/express';
 import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter.js';
 import flowQueue from '@/queues/flow.js';
-import emailQueue from '@/queues/email.js';
-import deleteUserQueue from '@/queues/delete-user.ee.js';
-import removeCancelledSubscriptionsQueue from '@/queues/remove-cancelled-subscriptions.ee.js';
 import appConfig from '@/config/app.js';
 
 const serverAdapter = new ExpressAdapter();
 
-const queues = [
-  new BullMQAdapter(flowQueue),
-  new BullMQAdapter(emailQueue),
-  new BullMQAdapter(deleteUserQueue),
-];
-
-if (appConfig.isCloud) {
-  queues.push(new BullMQAdapter(removeCancelledSubscriptionsQueue));
-}
+const queues = [new BullMQAdapter(flowQueue)];
 
 const shouldEnableBullDashboard = () => {
   return (

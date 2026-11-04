@@ -18,7 +18,6 @@ import Tab from '@mui/material/Tab';
 import AddIcon from '@mui/icons-material/Add';
 
 import useFormatMessage from 'hooks/useFormatMessage';
-import useAppConfig from 'hooks/useAppConfig.ee';
 import useCurrentUserAbility from 'hooks/useCurrentUserAbility';
 import * as URLS from 'config/urls';
 import SplitButton from 'components/SplitButton';
@@ -30,7 +29,6 @@ import AppIcon from 'components/AppIcon';
 import Container from 'components/Container';
 import PageTitle from 'components/PageTitle';
 import useApp from 'hooks/useApp';
-import useOAuthClients from 'hooks/useOAuthClients';
 import Can from 'components/Can';
 import { AppPropType } from 'propTypes/propTypes';
 
@@ -63,12 +61,9 @@ export default function Application() {
   const flowsPathMatch = useMatch({ path: URLS.APP_FLOWS_PATTERN, end: false });
   const { appKey } = useParams();
   const navigate = useNavigate();
-  const { data: appOAuthClients } = useOAuthClients(appKey);
 
   const { data, loading } = useApp(appKey);
   const app = data?.data || {};
-
-  const { data: appConfig } = useAppConfig(appKey);
 
   const currentUserAbility = useCurrentUserAbility();
 
@@ -79,41 +74,12 @@ export default function Application() {
       label: formatMessage('app.addConnection'),
       key: 'addConnection',
       'data-test': 'add-connection-button',
-      to: URLS.APP_ADD_CONNECTION(appKey, false),
-      disabled:
-        !currentUserAbility.can('manage', 'Connection') ||
-        appConfig?.data?.useOnlyPredefinedAuthClients === true ||
-        appConfig?.data?.disabled === true,
+      to: URLS.APP_ADD_CONNECTION(appKey),
+      disabled: !currentUserAbility.can('manage', 'Connection'),
     };
 
-    const addConnectionWithOAuthClient = {
-      label: formatMessage('app.addConnectionWithOAuthClient'),
-      key: 'addConnectionWithOAuthClient',
-      'data-test': 'add-connection-with-auth-client-button',
-      to: URLS.APP_ADD_CONNECTION(appKey, true),
-      disabled:
-        !currentUserAbility.can('manage', 'Connection') ||
-        appOAuthClients?.data?.length === 0 ||
-        appConfig?.data?.disabled === true,
-    };
-
-    // means there is no app config. defaulting to custom connections only
-    if (!appConfig?.data) {
-      return [addCustomConnection];
-    }
-
-    // means only OAuth clients are allowed for connection creation
-    if (appConfig?.data?.useOnlyPredefinedAuthClients === true) {
-      return [addConnectionWithOAuthClient];
-    }
-
-    // means there is no OAuth client. so we don't show the `addConnectionWithOAuthClient`
-    if (appOAuthClients?.data?.length === 0) {
-      return [addCustomConnection];
-    }
-
-    return [addCustomConnection, addConnectionWithOAuthClient];
-  }, [appKey, appConfig, appOAuthClients, currentUserAbility, formatMessage]);
+    return [addCustomConnection];
+  }, [appKey, currentUserAbility, formatMessage]);
 
   if (loading) return null;
 

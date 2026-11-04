@@ -72,11 +72,9 @@ export default defineConfig({
       all: true,
       include: [
         '**/src/controllers/**',
-        '**/src/helpers/authenticate-api-token.ee.test.js',
         '**/src/helpers/authentication.js',
         '**/src/helpers/axios-with-proxy.js',
         '**/src/helpers/compute-parameters.js',
-        '**/src/helpers/find-mcp-transport.ee.js',
         '**/src/helpers/user-ability.js',
         '**/src/engine/**',
         '**/src/models/**',
@@ -84,7 +82,6 @@ export default defineConfig({
       ],
       exclude: [
         '**/*.test.js',
-        '**/src/controllers/paddle/**',
         '**/src/controllers/webhooks/**',
       ],
       thresholds: {
