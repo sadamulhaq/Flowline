@@ -1,6 +1,6 @@
 # Filter
 
-Filter is a built-in app shipped with Automatisch, and it doesn't need to talk with any other external service to run. So there are no additional steps to use the Filter app. It can be used as an action and it filters the flow based on the given conditions. Available conditions are:
+Filter is a built-in app shipped with Flowline, and it doesn't need to talk with any other external service to run. So there are no additional steps to use the Filter app. It can be used as an action and it filters the flow based on the given conditions. Available conditions are:
 
 - is equal
 - is not equal

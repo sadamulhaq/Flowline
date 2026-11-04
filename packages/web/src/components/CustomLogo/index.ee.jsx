@@ -1,8 +1,8 @@
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 import { LogoImage } from './style.ee';
 
 const CustomLogo = () => {
-  const { data: configData, isLoading } = useAutomatischConfig();
+  const { data: configData, isLoading } = useFlowlineConfig();
   const config = configData?.data;
 
   if (isLoading || !config?.logoSvgData) return null;

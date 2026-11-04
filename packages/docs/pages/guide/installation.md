@@ -1,12 +1,12 @@
 # Installation
 
 :::info
-We have installation guides for docker compose and docker setup at the moment, but if you need another installation type, let us know by [creating a GitHub issue](https://github.com/automatisch/automatisch/issues/new).
+We have installation guides for docker compose and docker setup at the moment, but if you need another installation type, let us know by [creating a GitHub issue](https://github.com/sadamulhaq/Flowline/issues/new).
 :::
 
 :::tip
 
-You can use `user@automatisch.io` email address and `sample` password to login to Automatisch. Please do not forget to change your email and password from the settings page.
+You can use `user@flowline.example` email address and `sample` password to login to Flowline. Please do not forget to change your email and password from the settings page.
 
 :::
 
@@ -18,20 +18,20 @@ Please be careful with the `ENCRYPTION_KEY` and `WEBHOOK_SECRET_KEY` environment
 
 ```bash
 # Clone the repository
-git clone git@github.com:automatisch/automatisch.git
+git clone git@github.com:sadamulhaq/Flowline.git
 
 # Go to the repository folder
-cd automatisch
+cd Flowline
 
 # Start
 docker compose up
 ```
 
-✌️ That's it; you have Automatisch running. Let's check it out by browsing [http://localhost:3000](https://localhost:3000)
+✌️ That's it; you have Flowline running. Let's check it out by browsing [http://localhost:3000](https://localhost:3000)
 
 ### Upgrade with Docker Compose
 
-If you want to upgrade the Automatisch version with docker compose, first you need to pull the main branch of Automatisch repository.
+If you want to upgrade the Flowline version with docker compose, first you need to pull the main branch of Flowline repository.
 
 ```bash
 git pull origin main
@@ -45,7 +45,7 @@ docker compose up --force-recreate --build
 
 ## Docker
 
-Automatisch comes with two services which are `main` and `worker`. They both use the same image and need to have the same environment variables except for the `WORKER` environment variable which is set to `true` for the worker service.
+Flowline comes with two services which are `main` and `worker`. They both use the same image and need to have the same environment variables except for the `WORKER` environment variable which is set to `true` for the worker service.
 
 ::: warning
 We give the sample environment variable files for the setup but you should adjust them to include your own values.
@@ -94,7 +94,7 @@ You can use the `openssl rand -base64 36` command in your terminal to generate a
 
 ## Render
 
-<a href="https://render.com/deploy?repo=https://github.com/automatisch/automatisch">
+<a href="https://render.com/deploy?repo=https://github.com/sadamulhaq/Flowline">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
 
@@ -110,4 +110,4 @@ If you need to change any other environment variables for your production setup,
 
 ## Let's discover!
 
-If you see any problems while installing Automatisch, let us know via [github issues](https://github.com/automatisch/automatisch/issues) or our [discord server](https://discord.gg/dJSah9CVrC).
+If you see any problems while installing Flowline, let us know via [github issues](https://github.com/sadamulhaq/Flowline/issues) or our [discord server](https://discord.gg/dJSah9CVrC).

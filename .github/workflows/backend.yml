@@ -1,4 +1,4 @@
-name: Automatisch Backend Tests
+name: Flowline Backend Tests
 on:
   push:
     branches:
@@ -15,11 +15,11 @@ jobs:
       postgres:
         image: postgres:14.5-alpine
         env:
-          POSTGRES_DB: automatisch_test
-          POSTGRES_USER: automatisch_test_user
-          POSTGRES_PASSWORD: automatisch_test_user_password
+          POSTGRES_DB: flowline_test
+          POSTGRES_USER: flowline_test_user
+          POSTGRES_PASSWORD: flowline_test_user_password
         options: >-
-          --health-cmd "pg_isready -U automatisch_test_user -d automatisch_test"
+          --health-cmd "pg_isready -U flowline_test_user -d flowline_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

@@ -75,7 +75,7 @@ export function createInstance(
     function removeBaseUrlForAbsoluteUrls(requestConfig) {
       /**
        * If the URL is an absolute URL, we remove its origin out of the URL
-       * and set it as baseURL. This lets us streamlines the requests made by Automatisch
+       * and set it as baseURL. This lets us streamlines the requests made by Flowline
        * and requests made by app integrations.
        */
       try {

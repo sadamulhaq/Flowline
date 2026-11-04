@@ -46,7 +46,7 @@ describe.sequential('Third-party polling async test and continue', () => {
       key: 'newIssues',
       name: 'GitHub new issues trigger',
       parameters: {
-        repo: 'automatisch/automatisch',
+        repo: 'flowline/flowline',
         issueType: 'all',
       },
       position: 1,
@@ -87,7 +87,7 @@ describe.sequential('Third-party polling async test and continue', () => {
         delay: '',
         email: '',
         title: 'New GitHub Issue',
-        topic: 'automatisch-github-test',
+        topic: 'flowline-github-test',
         attach: '',
         message: `{{step.${formatterStep.id}.output}} New issue: {{step.${githubTriggerStep.id}.url}} by {{step.${githubTriggerStep.id}.user.login}}`,
         filename: '',
@@ -101,7 +101,7 @@ describe.sequential('Third-party polling async test and continue', () => {
 
     nock('https://api.github.com')
       .persist()
-      .get('/repos/automatisch/automatisch/issues')
+      .get('/repos/flowline/flowline/issues')
       .query({
         filter: 'all',
         state: 'all',
@@ -159,10 +159,10 @@ describe.sequential('Third-party polling async test and continue', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-github-test',
+      topic: 'flowline-github-test',
       title: 'New GitHub Issue',
       message:
-        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
       priority: 3,
     });
 
@@ -181,11 +181,11 @@ describe.sequential('Third-party polling async test and continue', () => {
       expires: 1755322502,
       id: 'GH123456789',
       message:
-        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
       priority: 3,
       time: 1755279302,
       title: 'New GitHub Issue',
-      topic: 'automatisch-github-test',
+      topic: 'flowline-github-test',
     });
 
     expect(testedStep.lastExecutionStep.errorDetails).toBeNull();
@@ -212,10 +212,10 @@ describe.sequential('Third-party polling async test and continue', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-github-test',
+      topic: 'flowline-github-test',
       title: 'New GitHub Issue',
       message:
-        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+        'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
       priority: 3,
     });
 

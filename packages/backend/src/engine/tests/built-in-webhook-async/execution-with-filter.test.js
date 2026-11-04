@@ -99,7 +99,7 @@ describe.sequential('Built-in webhook app async with filter', () => {
         delay: '',
         email: '',
         title: '',
-        topic: 'automatisch-test',
+        topic: 'flowline-test',
         attach: '',
         message: `Hey {{step.${formatterStep.id}.output}}, welcome to the party!`,
         filename: '',
@@ -116,7 +116,7 @@ describe.sequential('Built-in webhook app async with filter', () => {
     const timeBeforeTheRequest = new Date();
 
     const response = await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch`
+      `${webhookAsyncStep.webhookPath}?name=flowline`
     );
 
     expect(response.status).toBe(204);
@@ -146,12 +146,12 @@ describe.sequential('Built-in webhook app async with filter', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
-    await request(app).get(`${webhookAsyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookAsyncStep.webhookPath}?name=flowline`);
 
     await waitFlowWorkerJobs(flow.id);
 
@@ -173,13 +173,13 @@ describe.sequential('Built-in webhook app async with filter', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
     await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookAsyncStep.webhookPath}?name=flowline&key=A`
     );
 
     await waitFlowWorkerJobs(flow.id);
@@ -215,7 +215,7 @@ describe.sequential('Built-in webhook app async with filter', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
         key: 'A',
       },
     });
@@ -252,11 +252,11 @@ describe.sequential('Built-in webhook app async with filter', () => {
     expect(executionSteps[2].status).toBe('success');
     expect(executionSteps[2].stepId).toBe(formatterStep.id);
     expect(executionSteps[2].dataIn).toMatchObject({
-      input: 'automatisch',
+      input: 'flowline',
       transform: 'capitalize',
     });
     expect(executionSteps[2].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
 
     expect(executionSteps[3].status).toBe('success');
@@ -267,19 +267,19 @@ describe.sequential('Built-in webhook app async with filter', () => {
       delay: '',
       email: '',
       filename: '',
-      message: 'Hey Automatisch, welcome to the party!',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
       tags: [],
       title: '',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
     });
     expect(executionSteps[3].dataOut).toMatchObject({
       id: 'V63mhF65S68a',
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
   });
@@ -292,13 +292,13 @@ describe.sequential('Built-in webhook app async with filter', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
     await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch&key=B`
+      `${webhookAsyncStep.webhookPath}?name=flowline&key=B`
     );
 
     await waitFlowWorkerJobs(flow.id);
@@ -334,7 +334,7 @@ describe.sequential('Built-in webhook app async with filter', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
         key: 'B',
       },
     });
@@ -364,7 +364,7 @@ describe.sequential('Built-in webhook app async with filter', () => {
     const timeBeforeTheRequest = new Date();
 
     const response = await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch`
+      `${webhookAsyncStep.webhookPath}?name=flowline`
     );
 
     expect(response.status).toBe(422);

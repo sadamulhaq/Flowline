@@ -76,7 +76,7 @@ function AddAppConnection(props) {
   React.useEffect(function relayProviderData() {
     if (window.opener) {
       window.opener.postMessage({
-        source: 'automatisch',
+        source: 'flowline',
         payload: { search: window.location.search, hash: window.location.hash },
       });
 

@@ -22,7 +22,7 @@ If you still need to set up the development environment, please go back to the [
 We will use the terms **integration** and **app** interchangeably in the documentation.
 :::
 
-Before diving into how to build an integration for Automatisch, it's better to check the folder structure of the apps and give you some idea about how we place different parts of the app.
+Before diving into how to build an integration for Flowline, it's better to check the folder structure of the apps and give you some idea about how we place different parts of the app.
 
 ## Folder structure of an app
 
@@ -61,7 +61,7 @@ The common folder is where you can put utilities or shared functionality used by
 
 ## Dynamic data
 
-Sometimes you need to get some dynamic data with the user interface to set up the triggers or actions. For example, to use the new issues trigger from the GitHub app, we need to select the repository we want to track for the new issues. This selection should load the repository list from GitHub. This is where the data folder comes into play. You can put your data fetching logic here when it doesn't belong to triggers or actions but is used to set up triggers or actions in the Automatisch user interface.
+Sometimes you need to get some dynamic data with the user interface to set up the triggers or actions. For example, to use the new issues trigger from the GitHub app, we need to select the repository we want to track for the new issues. This selection should load the repository list from GitHub. This is where the data folder comes into play. You can put your data fetching logic here when it doesn't belong to triggers or actions but is used to set up triggers or actions in the Flowline user interface.
 
 ## Assets
 

@@ -1,4 +1,4 @@
-name: Automatisch UI Tests
+name: Flowline UI Tests
 on:
   push:
     branches:
@@ -16,10 +16,10 @@ env:
   WEBHOOK_SECRET_KEY: sample_webhook_secret_key
   APP_SECRET_KEY: sample_app_secret_key
   POSTGRES_HOST: localhost
-  POSTGRES_DATABASE: automatisch
+  POSTGRES_DATABASE: flowline
   POSTGRES_PORT: 5432
-  POSTGRES_USERNAME: automatisch_user
-  POSTGRES_PASSWORD: automatisch_password
+  POSTGRES_USERNAME: flowline_user
+  POSTGRES_PASSWORD: flowline_password
   REDIS_HOST: localhost
   APP_ENV: production
   LICENSE_KEY: dummy_license_key
@@ -33,11 +33,11 @@ jobs:
       postgres:
         image: postgres:14.5-alpine
         env:
-          POSTGRES_DB: automatisch
-          POSTGRES_USER: automatisch_user
-          POSTGRES_PASSWORD: automatisch_password
+          POSTGRES_DB: flowline
+          POSTGRES_USER: flowline_user
+          POSTGRES_PASSWORD: flowline_password
         options: >-
-          --health-cmd "pg_isready -U automatisch_user -d automatisch"
+          --health-cmd "pg_isready -U flowline_user -d flowline"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -87,7 +87,7 @@ jobs:
         run: yarn playwright install --with-deps
         working-directory: ./packages/e2e-tests
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Build Automatisch web
+      - name: Build Flowline web
         run: APP_ENV=test yarn build
         env:
           # Keep this until we clean up warnings in build processes
@@ -115,10 +115,10 @@ jobs:
       - name: Run local license server
         working-directory: ./packages/e2e-tests
         run: sudo yarn start-mock-license-server &
-      - name: Run Automatisch
+      - name: Run Flowline
         run: yarn start &
         working-directory: ./packages/backend
-      - name: Run Automatisch worker
+      - name: Run Flowline worker
         run: yarn start:worker &
         working-directory: ./packages/backend
       - name: Setup upterm session
@@ -130,7 +130,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./packages/e2e-tests
         env:
-          LOGIN_EMAIL: user@automatisch.io
+          LOGIN_EMAIL: user@flowline.example
           LOGIN_PASSWORD: sample
           BACKEND_APP_URL: http://localhost:3000
           BASE_URL: http://localhost:3000

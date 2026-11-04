@@ -25,7 +25,7 @@ describe('POST /internal/api/v1/admin/saml-auth-provider', () => {
       name: 'Name',
       issuer: 'theclientid',
       certificate: 'dummycert',
-      entryPoint: 'http://localhost:8080/realms/automatisch/protocol/saml',
+      entryPoint: 'http://localhost:8080/realms/flowline/protocol/saml',
       signatureAlgorithm: 'sha256',
       defaultRoleId: role.id,
       firstnameAttributeName: 'urn:oid:2.5.4.42',

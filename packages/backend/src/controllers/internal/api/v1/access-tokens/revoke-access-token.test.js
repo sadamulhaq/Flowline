@@ -10,7 +10,7 @@ describe('DELETE /internal/api/v1/access-tokens/:token', () => {
 
   beforeEach(async () => {
     const currentUser = await createUser({
-      email: 'user@automatisch.io',
+      email: 'user@flowline.example',
       password: 'password',
     });
     token = await createAuthTokenByUserId(currentUser.id);

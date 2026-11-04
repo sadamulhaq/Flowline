@@ -5,8 +5,8 @@ import clone from 'lodash/clone';
 import set from 'lodash/set';
 import * as React from 'react';
 
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 import { defaultTheme, mationTheme } from 'styles/theme';
 
 const overrideIfGiven = (theme, key, value) => {
@@ -53,24 +53,24 @@ const customizeTheme = (theme, config) => {
 };
 
 const ThemeProvider = ({ children, ...props }) => {
-  const { data: automatischInfo, isPending: isAutomatischInfoPending } =
-    useAutomatischInfo();
-  const isMation = automatischInfo?.data.isMation;
-  const { data: configData, isLoading: configLoading } = useAutomatischConfig();
+  const { data: flowlineInfo, isPending: isFlowlineInfoPending } =
+    useFlowlineInfo();
+  const isMation = flowlineInfo?.data.isMation;
+  const { data: configData, isLoading: configLoading } = useFlowlineConfig();
   const config = configData?.data;
 
   const customTheme = React.useMemo(() => {
     const installationTheme = isMation ? mationTheme : defaultTheme;
 
-    if (configLoading || isAutomatischInfoPending) return installationTheme;
+    if (configLoading || isFlowlineInfoPending) return installationTheme;
 
     const customTheme = customizeTheme(installationTheme, config || {});
 
     return customTheme;
-  }, [configLoading, config, isMation, isAutomatischInfoPending]);
+  }, [configLoading, config, isMation, isFlowlineInfoPending]);
 
   // TODO: maybe a global loading state for the custom theme?
-  if (isAutomatischInfoPending || configLoading) return <></>;
+  if (isFlowlineInfoPending || configLoading) return <></>;
 
   return (
     <BaseThemeProvider theme={customTheme} {...props}>

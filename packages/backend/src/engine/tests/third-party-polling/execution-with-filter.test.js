@@ -53,7 +53,7 @@ describe.sequential(
         key: 'newIssues',
         name: 'GitHub new issues trigger',
         parameters: {
-          repo: 'automatisch/automatisch',
+          repo: 'flowline/flowline',
           issueType: 'all',
         },
         position: 1,
@@ -116,7 +116,7 @@ describe.sequential(
           delay: '',
           email: '',
           title: 'New GitHub Issue',
-          topic: 'automatisch-github-test',
+          topic: 'flowline-github-test',
           attach: '',
           message: `{{step.${formatterStep.id}.output}} New issue: {{step.${githubTriggerStep.id}.url}} by {{step.${githubTriggerStep.id}.user.login}}`,
           filename: '',
@@ -130,7 +130,7 @@ describe.sequential(
 
       nock('https://api.github.com')
         .persist()
-        .get('/repos/automatisch/automatisch/issues')
+        .get('/repos/flowline/flowline/issues')
         .query({
           filter: 'all',
           state: 'all',
@@ -145,10 +145,10 @@ describe.sequential(
         time: 1755279302,
         expires: 1755322502,
         event: 'message',
-        topic: 'automatisch-github-test',
+        topic: 'flowline-github-test',
         title: 'New GitHub Issue',
         message:
-          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
         priority: 3,
       });
     });
@@ -252,7 +252,7 @@ describe.sequential(
 
       expect(executionSteps[0].dataIn).toStrictEqual({
         issueType: 'all',
-        repo: 'automatisch/automatisch',
+        repo: 'flowline/flowline',
       });
 
       expect(executionSteps[0].dataOut).toStrictEqual(
@@ -310,11 +310,11 @@ describe.sequential(
         email: '',
         filename: '',
         message:
-          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
         priority: 3,
         tags: [],
         title: 'New GitHub Issue',
-        topic: 'automatisch-github-test',
+        topic: 'flowline-github-test',
       });
 
       expect(executionSteps[3].dataOut).toMatchObject({
@@ -322,10 +322,10 @@ describe.sequential(
         time: 1755279302,
         expires: 1755322502,
         event: 'message',
-        topic: 'automatisch-github-test',
+        topic: 'flowline-github-test',
         title: 'New GitHub Issue',
         message:
-          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/automatisch/automatisch/issues/2626 by farukaydin',
+          'Hey Farukaydin, Welcome To The Party! New issue: https://api.github.com/repos/flowline/flowline/issues/2626 by farukaydin',
         priority: 3,
       });
     });

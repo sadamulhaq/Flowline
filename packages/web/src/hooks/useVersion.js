@@ -1,15 +1,15 @@
 import { compare } from 'compare-versions';
 import { useQuery } from '@tanstack/react-query';
 
-import useAutomatischNotifications from 'hooks/useAutomatischNotifications';
+import useFlowlineNotifications from 'hooks/useFlowlineNotifications';
 import api from 'helpers/api';
 
 export default function useVersion() {
-  const { data: notificationsData } = useAutomatischNotifications();
+  const { data: notificationsData } = useFlowlineNotifications();
   const { data } = useQuery({
-    queryKey: ['automatisch', 'version'],
+    queryKey: ['flowline', 'version'],
     queryFn: async ({ signal }) => {
-      const { data } = await api.get('/v1/automatisch/version', {
+      const { data } = await api.get('/v1/flowline/version', {
         signal,
       });
 

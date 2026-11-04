@@ -5,11 +5,11 @@ const addAuthHeader = ($, requestConfig) => {
   if (screenName) {
     requestConfig.headers[
       'User-Agent'
-    ] = `web:automatisch:${appConfig.version} (by /u/${screenName})`;
+    ] = `web:flowline:${appConfig.version} (by /u/${screenName})`;
   } else {
     requestConfig.headers[
       'User-Agent'
-    ] = `web:automatisch:${appConfig.version}`;
+    ] = `web:flowline:${appConfig.version}`;
   }
 
   if (

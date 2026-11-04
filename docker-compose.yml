@@ -19,14 +19,14 @@ services:
       - APP_ENV=production
       - REDIS_HOST=redis
       - POSTGRES_HOST=postgres
-      - POSTGRES_DATABASE=automatisch
-      - POSTGRES_USERNAME=automatisch_user
-      - POSTGRES_PASSWORD=automatisch_password
+      - POSTGRES_DATABASE=flowline
+      - POSTGRES_USERNAME=flowline_user
+      - POSTGRES_PASSWORD=flowline_password
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
       - APP_SECRET_KEY
     volumes:
-      - automatisch_storage:/automatisch/storage
+      - flowline_storage:/flowline/storage
   worker:
     build:
       context: ./docker
@@ -38,21 +38,21 @@ services:
       - APP_ENV=production
       - REDIS_HOST=redis
       - POSTGRES_HOST=postgres
-      - POSTGRES_DATABASE=automatisch
-      - POSTGRES_USERNAME=automatisch_user
-      - POSTGRES_PASSWORD=automatisch_password
+      - POSTGRES_DATABASE=flowline
+      - POSTGRES_USERNAME=flowline_user
+      - POSTGRES_PASSWORD=flowline_password
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
       - APP_SECRET_KEY
       - WORKER=true
     volumes:
-      - automatisch_storage:/automatisch/storage
+      - flowline_storage:/flowline/storage
   postgres:
     image: 'postgres:14.5'
     environment:
-      - POSTGRES_DB=automatisch
-      - POSTGRES_USER=automatisch_user
-      - POSTGRES_PASSWORD=automatisch_password
+      - POSTGRES_DB=flowline
+      - POSTGRES_USER=flowline_user
+      - POSTGRES_PASSWORD=flowline_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -65,6 +65,6 @@ services:
     volumes:
       - redis_data:/data
 volumes:
-  automatisch_storage:
+  flowline_storage:
   postgres_data:
   redis_data:

@@ -22,7 +22,7 @@ import { StepPropType, SubstepPropType } from 'propTypes/propTypes';
 import useTriggers from 'hooks/useTriggers';
 import useActions from 'hooks/useActions';
 import useFlow from 'hooks/useFlow';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 
 const optionGenerator = (app) => ({
   label: app.name,
@@ -58,8 +58,8 @@ function ChooseAppAndEventSubstep(props) {
   const useAppsOptions = {};
 
   const { data: flow } = useFlow(flowId);
-  const { data: automatischInfo } = useAutomatischInfo();
-  const isEnterprise = automatischInfo?.data?.isEnterprise;
+  const { data: flowlineInfo } = useFlowlineInfo();
+  const isEnterprise = flowlineInfo?.data?.isEnterprise;
   const executionIntervalOptions = [1, 2, 5, 10, 15, 30, 60];
 
   if (isTrigger) {

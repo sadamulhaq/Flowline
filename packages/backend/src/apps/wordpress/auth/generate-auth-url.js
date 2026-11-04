@@ -11,7 +11,7 @@ export default async function generateAuthUrl($) {
   const baseUrl = getInstanceUrl($);
 
   const searchParams = new URLSearchParams({
-    app_name: 'automatisch',
+    app_name: 'flowline',
     success_url: successUrl,
   });
 

@@ -12,7 +12,7 @@ export default {
       value: null,
       placeholder: null,
       description:
-        'Screen name of your connection to be used on Automatisch UI.',
+        'Screen name of your connection to be used on Flowline UI.',
       clickToCopy: false,
     },
     {

@@ -7,16 +7,16 @@ import Container from 'components/Container';
 import NotificationCard from 'components/NotificationCard';
 import PageTitle from 'components/PageTitle';
 import * as URLS from 'config/urls';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 import useFormatMessage from 'hooks/useFormatMessage';
-import useAutomatischNotifications from 'hooks/useAutomatischNotifications';
+import useFlowlineNotifications from 'hooks/useFlowlineNotifications';
 
 export default function Updates() {
   const navigate = useNavigate();
   const formatMessage = useFormatMessage();
-  const { data: notificationsData } = useAutomatischNotifications();
-  const { data: automatischInfo, isPending } = useAutomatischInfo();
-  const isMation = automatischInfo?.data.isMation;
+  const { data: notificationsData } = useFlowlineNotifications();
+  const { data: flowlineInfo, isPending } = useFlowlineInfo();
+  const isMation = flowlineInfo?.data.isMation;
   const notifications = notificationsData?.data || [];
 
   React.useEffect(

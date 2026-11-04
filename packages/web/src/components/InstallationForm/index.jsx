@@ -63,7 +63,7 @@ function InstallationForm() {
 
   const handleOnRedirect = () => {
     queryClient.invalidateQueries({
-      queryKey: ['automatisch', 'info'],
+      queryKey: ['flowline', 'info'],
     });
   };
 

@@ -10,9 +10,9 @@ export default {
           key: 'botName',
           type: 'string',
           required: true,
-          value: 'Automatisch',
+          value: 'Flowline',
           description:
-            'Specify the bot name which appears as a bold username above the message inside Slack. Defaults to Automatisch.',
+            'Specify the bot name which appears as a bold username above the message inside Slack. Defaults to Flowline.',
           variables: true,
         },
         {

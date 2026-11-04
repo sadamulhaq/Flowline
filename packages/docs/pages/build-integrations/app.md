@@ -14,7 +14,7 @@ The build integrations section is best understood when read from beginning to en
 
 :::
 
-Let's start building our first app by using [TheCatApi](https://thecatapi.com/) service. It's a service that provides cat images and allows you to vote or favorite a specific cat image. It's an excellent example to demonstrate how Automatisch works with an API that has authentication and data fetching with pagination.
+Let's start building our first app by using [TheCatApi](https://thecatapi.com/) service. It's a service that provides cat images and allows you to vote or favorite a specific cat image. It's an excellent example to demonstrate how Flowline works with an API that has authentication and data fetching with pagination.
 
 We will build an app with the `Search cat images` trigger and `Mark the cat image as favorite` action. So we will learn how to build both triggers and actions.
 
@@ -51,14 +51,14 @@ export default defineApp({
 });
 ```
 
-- `name` is the displayed name of the app in Automatisch.
-- `key` is the unique key of the app. It's used to identify the app in Automatisch.
-- `iconUrl` is the URL of the app icon. It's used in Automatisch to display the app icon. You can use `{BASE_URL}` placeholder to refer to the base URL of the app. We expect you to place the SVG icon as `assets/favicon.svg` file.
-- `authDocUrl` is the URL of the documentation page that describes how to connect to the app. It's used in Automatisch to display the documentation link on the connection page.
-- `supportsConnections` is a boolean that indicates whether the app supports connections or not. If it's `true`, Automatisch will display the connection page for the app. Some apps like RSS and Scheduler do not support connections since they do not have authentication.
+- `name` is the displayed name of the app in Flowline.
+- `key` is the unique key of the app. It's used to identify the app in Flowline.
+- `iconUrl` is the URL of the app icon. It's used in Flowline to display the app icon. You can use `{BASE_URL}` placeholder to refer to the base URL of the app. We expect you to place the SVG icon as `assets/favicon.svg` file.
+- `authDocUrl` is the URL of the documentation page that describes how to connect to the app. It's used in Flowline to display the documentation link on the connection page.
+- `supportsConnections` is a boolean that indicates whether the app supports connections or not. If it's `true`, Flowline will display the connection page for the app. Some apps like RSS and Scheduler do not support connections since they do not have authentication.
 - `baseUrl` is the base URL of the third-party service.
 - `apiBaseUrl` is the API URL of the third-party service.
-- `primaryColor` is the primary color of the app. It's used in Automatisch to generate the app icon if it does not provide an icon. You can put any hex color code that reflects the branding of the third-party service.
+- `primaryColor` is the primary color of the app. It's used in Flowline to generate the app icon if it does not provide an icon. You can put any hex color code that reflects the branding of the third-party service.
 
 ## Create the favicon
 
@@ -74,4 +74,4 @@ If you're looking for SVG icons for third-party services, you can use the follow
 
 ## Test the app definition
 
-Now, you can go to the `My Apps` page on Automatisch and click on `Add connection` button, and then you will see `The cat API` service with the icon.
+Now, you can go to the `My Apps` page on Flowline and click on `Add connection` button, and then you will see `The cat API` service with the icon.

@@ -52,7 +52,7 @@ export default defineAction({
       type: 'dropdown',
       required: true,
       description:
-        'Please indicate "yes" if you would rather create a full JSON payload instead of relying on Automatisch mapping for the Document data.',
+        'Please indicate "yes" if you would rather create a full JSON payload instead of relying on Flowline mapping for the Document data.',
       variables: true,
       options: [
         {

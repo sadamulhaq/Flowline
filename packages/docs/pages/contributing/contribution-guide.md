@@ -1,6 +1,6 @@
 # Contribution Guide
 
-We are happy that you want to contribute to Automatisch. We will assist you in the contribution process. This guide will help you to get started.
+We are happy that you want to contribute to Flowline. We will assist you in the contribution process. This guide will help you to get started.
 
 ## We develop with GitHub
 
@@ -18,7 +18,7 @@ We use [conventional commit messages](https://www.conventionalcommits.org) to ge
 
 ## Report bugs using GitHub issues
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/automatisch/automatisch/issues/new).
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/sadamulhaq/Flowline/issues/new).
 
 ## License
 

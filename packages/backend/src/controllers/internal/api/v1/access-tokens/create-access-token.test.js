@@ -6,7 +6,7 @@ import { createUser } from '@/factories/user.js';
 describe('POST /internal/api/v1/access-tokens', () => {
   beforeEach(async () => {
     await createUser({
-      email: 'user@automatisch.io',
+      email: 'user@flowline.example',
       password: 'password',
     });
   });
@@ -15,7 +15,7 @@ describe('POST /internal/api/v1/access-tokens', () => {
     const response = await request(app)
       .post('/internal/api/v1/access-tokens')
       .send({
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         password: 'password',
       })
       .expect(200);

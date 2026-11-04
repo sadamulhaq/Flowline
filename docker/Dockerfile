@@ -6,10 +6,10 @@ ENV PORT=3000
 RUN \
   apk --no-cache add --virtual build-dependencies python3 build-base git make g++
 
-WORKDIR /automatisch
+WORKDIR /flowline
 
 # copy the app, note .dockerignore
-COPY . /automatisch
+COPY . /flowline
 
 RUN cd packages/web && yarn
 

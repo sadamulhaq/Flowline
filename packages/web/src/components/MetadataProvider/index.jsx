@@ -1,14 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 
 const MetadataProvider = ({ children }) => {
-  const { data: configData } = useAutomatischConfig();
+  const { data: configData } = useFlowlineConfig();
   const config = configData?.data;
 
   React.useEffect(() => {
-    document.title = config?.title || 'Automatisch';
+    document.title = config?.title || 'Flowline';
   }, [config?.title]);
 
   React.useEffect(() => {

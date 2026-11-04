@@ -1,5 +1,5 @@
 {
-  "name": "@automatisch/e2e-tests",
+  "name": "@flowline/e2e-tests",
   "license": "See LICENSE file",
   "private": true,
   "description": "The open source Zapier alternative. Build workflow automation without spending time and money.",
@@ -11,17 +11,17 @@
   },
   "contributors": [
     {
-      "name": "automatisch contributors",
-      "url": "https://github.com/automatisch/automatisch/graphs/contributors"
+      "name": "flowline contributors",
+      "url": "https://github.com/sadamulhaq/Flowline/graphs/contributors"
     }
   ],
-  "homepage": "https://github.com/automatisch/automatisch#readme",
+  "homepage": "https://github.com/sadamulhaq/Flowline#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/automatisch/automatisch.git"
+    "url": "git+https://github.com/sadamulhaq/Flowline.git"
   },
   "bugs": {
-    "url": "https://github.com/automatisch/automatisch/issues"
+    "url": "https://github.com/sadamulhaq/Flowline/issues"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",

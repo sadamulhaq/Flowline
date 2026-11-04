@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import automatischRouter from '@/routes/internal/api/v1/automatisch.js';
+import flowlineRouter from '@/routes/internal/api/v1/flowline.js';
 import accessTokensRouter from '@/routes/internal/api/v1/access-tokens.js';
 import usersRouter from '@/routes/internal/api/v1/users.js';
 import paymentRouter from '@/routes/internal/api/v1/payment.ee.js';
@@ -27,7 +27,7 @@ import agentsRouter from '@/routes/internal/api/v1/agents.ee.js';
 
 const router = Router();
 
-router.use('/v1/automatisch', automatischRouter);
+router.use('/v1/flowline', flowlineRouter);
 router.use('/v1/access-tokens', accessTokensRouter);
 router.use('/v1/users', usersRouter);
 router.use('/v1/payment', paymentRouter);

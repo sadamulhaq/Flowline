@@ -1,7 +1,7 @@
 # Twitter
 
 :::info
-This page explains the steps you need to follow to set up the Twitter connection in Automatisch. If any of the steps are outdated, please let us know!
+This page explains the steps you need to follow to set up the Twitter connection in Flowline. If any of the steps are outdated, please let us know!
 :::
 
 1. Go to the [Twitter Developer Portal](https://developer.twitter.com/en/portal/projects-and-apps), complete the questionnaire and click the **Let's do this** button.
@@ -19,7 +19,7 @@ If you see an error saying `There was a problem completing your request. User mu
 8. Go to the **User authentication settings** section and click **Set up**.
 9. Enable **OAuth 1.0a** on the following page.
 10. In the **OAuth 1.0A Settings** section, select **Read and write** option.
-11. Copy **OAuth Redirect URL** from Automatisch and paste it to the **Callback URI / Redirect URL** field.
+11. Copy **OAuth Redirect URL** from Flowline and paste it to the **Callback URI / Redirect URL** field.
 12. Fill **Website URL** and click **Save**.
-13. Paste **API Key** and **API Key Secret** values you have saved from the 5th step and paste them into Automatisch as **API Key** and **API Secret**, respectively.
+13. Paste **API Key** and **API Key Secret** values you have saved from the 5th step and paste them into Flowline as **API Key** and **API Secret**, respectively.
 14. Congrats! You can start using the new Twitter connection!

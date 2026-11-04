@@ -1,4 +1,4 @@
-name: Automatisch Release
+name: Flowline Release
 on:
   pull_request:
     branches:
@@ -107,7 +107,7 @@ jobs:
           tags: |
             automatischio/automatisch:${{ steps.set_version.outputs.VERSION }}
             automatischio/automatisch:latest
-            ghcr.io/automatisch/automatisch:${{ steps.set_version.outputs.VERSION }}
-            ghcr.io/automatisch/automatisch:latest
+            ghcr.io/sadamulhaq/flowline:${{ steps.set_version.outputs.VERSION }}
+            ghcr.io/sadamulhaq/flowline:latest
 
       - run: echo "🍏 This job's status is ${{ job.status }}."

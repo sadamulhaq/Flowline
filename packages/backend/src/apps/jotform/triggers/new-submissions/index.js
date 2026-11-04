@@ -49,7 +49,7 @@ export default defineTrigger({
       action: '',
       formID: Crypto.randomUUID(),
       parent: '',
-      pretty: 'Name:test, E-mail:user@automatisch.io',
+      pretty: 'Name:test, E-mail:user@flowline.example',
       teamID: '',
       unread: '',
       product: '',

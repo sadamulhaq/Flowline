@@ -6,9 +6,9 @@ import appConfig from '@/config/app.js';
 export const sendEmailJob = async (job) => {
   const { email, subject, template, params } = job.data;
 
-  if (isCloudSandbox() && !isAutomatischEmail(email)) {
+  if (isCloudSandbox() && !isFlowlineEmail(email)) {
     logger.info(
-      'Only Automatisch emails are allowed for non-production environments!'
+      'Only Flowline emails are allowed for non-production environments!'
     );
 
     return;
@@ -26,6 +26,6 @@ const isCloudSandbox = () => {
   return appConfig.isCloud && !appConfig.isProd;
 };
 
-const isAutomatischEmail = (email) => {
-  return email.endsWith('@automatisch.io');
+const isFlowlineEmail = (email) => {
+  return email.endsWith('@flowline.example');
 };

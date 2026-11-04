@@ -23,7 +23,7 @@ describe('POST /internal/api/v1/users/forgot-password', () => {
     await request(app)
       .post('/internal/api/v1/users/forgot-password')
       .send({
-        email: 'nonexisting@automatisch.io',
+        email: 'nonexisting@flowline.example',
       })
       .expect(404);
   });

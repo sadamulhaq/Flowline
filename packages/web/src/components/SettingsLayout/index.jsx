@@ -8,7 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PaymentIcon from '@mui/icons-material/Payment';
 import * as URLS from 'config/urls';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 import useFormatMessage from 'hooks/useFormatMessage';
 import AppBar from 'components/AppBar';
 import Drawer from 'components/Drawer';
@@ -32,8 +32,8 @@ function createDrawerLinks({ isCloud }) {
 }
 
 function SettingsLayout({ children }) {
-  const { data: automatischInfo } = useAutomatischInfo();
-  const isCloud = automatischInfo?.data.isCloud;
+  const { data: flowlineInfo } = useFlowlineInfo();
+  const isCloud = flowlineInfo?.data.isCloud;
   const theme = useTheme();
   const formatMessage = useFormatMessage();
   const matchSmallScreens = useMediaQuery(theme.breakpoints.down('lg'));
