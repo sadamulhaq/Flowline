@@ -1,6 +1,6 @@
 # Request Integration
 
-You can request a new integration by using [Github issues](https://github.com/automatisch/automatisch/issues).
+You can request a new integration by using [Github issues](https://github.com/sadamulhaq/Flowline/issues).
 
 :::info
 

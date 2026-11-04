@@ -71,7 +71,7 @@ describe('Config model', () => {
   it('additionalDrawerLinkText should return its value in appConfig', async () => {
     const additionalDrawerLinkTextSpy = vi
       .spyOn(appConfig, 'additionalDrawerLinkText', 'get')
-      .mockReturnValue('Go back to Automatisch');
+      .mockReturnValue('Go back to Flowline');
 
     new Config().additionalDrawerLinkText;
 
@@ -81,7 +81,7 @@ describe('Config model', () => {
   describe('get', () => {
     it('should return single config record when it exists', async () => {
       const createdConfig = await createConfig({
-        title: 'Automatisch',
+        title: 'Flowline',
       });
 
       const config = await Config.get();
@@ -111,10 +111,10 @@ describe('Config model', () => {
       }),
     }));
 
-    const config = await Config.update({ title: 'Automatisch' });
+    const config = await Config.update({ title: 'Flowline' });
 
-    expect(patchAndFetchSpy).toHaveBeenCalledWith({ title: 'Automatisch' });
-    expect(config).toStrictEqual({ title: 'Automatisch' });
+    expect(patchAndFetchSpy).toHaveBeenCalledWith({ title: 'Flowline' });
+    expect(config).toStrictEqual({ title: 'Flowline' });
   });
 
   it('isInstallationCompleted should return installationCompleted value', async () => {

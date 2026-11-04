@@ -11,7 +11,6 @@ import * as React from 'react';
 import AccountDropdownMenu from 'components/AccountDropdownMenu';
 import Container from 'components/Container';
 import Logo from 'components/Logo/index';
-import TrialStatusBadge from 'components/TrialStatusBadge/index.ee';
 import * as URLS from 'config/urls';
 import { Link } from './style';
 
@@ -51,8 +50,6 @@ function AppBar(props) {
               <Logo />
             </Link>
           </div>
-
-          <TrialStatusBadge />
 
           <IconButton
             size="large"

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,14 +8,12 @@ import * as URLS from 'config/urls';
 import useAuthentication from 'hooks/useAuthentication';
 import useFormatMessage from 'hooks/useFormatMessage';
 import useRevokeAccessToken from 'hooks/useRevokeAccessToken';
-import useIsCurrentUserAdmin from 'hooks/useIsCurrentUserAdmin';
 
 function AccountDropdownMenu(props) {
   const formatMessage = useFormatMessage();
   const authentication = useAuthentication();
   const token = authentication.token;
   const navigate = useNavigate();
-  const isCurrentUserAdmin = useIsCurrentUserAdmin();
   const revokeAccessTokenMutation = useRevokeAccessToken(token);
   const { open, onClose, anchorEl, id } = props;
 
@@ -47,16 +44,6 @@ function AccountDropdownMenu(props) {
       <MenuItem component={Link} to={URLS.SETTINGS_DASHBOARD} onClick={onClose}>
         {formatMessage('accountDropdownMenu.settings')}
       </MenuItem>
-
-      {isCurrentUserAdmin === true && (
-        <MenuItem
-          component={Link}
-          to={URLS.ADMIN_SETTINGS_DASHBOARD}
-          onClick={onClose}
-        >
-          {formatMessage('accountDropdownMenu.adminSettings')}
-        </MenuItem>
-      )}
 
       <MenuItem onClick={logout} data-test="logout-item">
         {formatMessage('accountDropdownMenu.logout')}

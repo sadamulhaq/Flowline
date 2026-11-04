@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import useAuthentication from 'hooks/useAuthentication';
-import useCloud from 'hooks/useCloud';
 import * as URLS from 'config/urls';
 import Form from 'components/Form';
 import TextField from 'components/TextField';
@@ -14,7 +12,6 @@ import useFormatMessage from 'hooks/useFormatMessage';
 import useCreateAccessToken from 'hooks/useCreateAccessToken';
 
 function LoginForm() {
-  const isCloud = useCloud();
   const navigate = useNavigate();
   const formatMessage = useFormatMessage();
   const authentication = useAuthentication();
@@ -96,16 +93,6 @@ function LoginForm() {
           data-test="password-text-field"
           sx={{ mb: 1 }}
         />
-
-        {isCloud && (
-          <Link
-            component={RouterLink}
-            to={URLS.FORGOT_PASSWORD}
-            underline="none"
-          >
-            {formatMessage('loginForm.forgotPasswordText')}
-          </Link>
-        )}
 
         {isError && renderError()}
 

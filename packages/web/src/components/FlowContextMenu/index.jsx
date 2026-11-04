@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useQueryClient } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Can from 'components/Can';
 import FlowFolderChangeDialog from 'components/FlowFolderChangeDialog';
@@ -14,7 +14,6 @@ import useDuplicateFlow from 'hooks/useDuplicateFlow';
 import useEnqueueSnackbar from 'hooks/useEnqueueSnackbar';
 import useExportFlow from 'hooks/useExportFlow';
 import useFormatMessage from 'hooks/useFormatMessage';
-import useIsCurrentUserEnterpriseAdmin from 'hooks/useIsCurrentUserEnterpriseAdmin';
 
 function ContextMenu(props) {
   const location = useLocation();
@@ -23,11 +22,9 @@ function ContextMenu(props) {
   const [showFlowFolderChangeDialog, setShowFlowFolderChangeDialog] =
     React.useState(false);
 
-  const navigate = useNavigate();
   const enqueueSnackbar = useEnqueueSnackbar();
   const formatMessage = useFormatMessage();
   const queryClient = useQueryClient();
-  const isCurrentUserEnterpriseAdmin = useIsCurrentUserEnterpriseAdmin();
   const { mutateAsync: duplicateFlow } = useDuplicateFlow(flowId);
   const { mutateAsync: deleteFlow } = useDeleteFlow(flowId);
   const { mutateAsync: exportFlow } = useExportFlow(flowId);
@@ -60,10 +57,6 @@ function ContextMenu(props) {
     onDuplicateFlow,
     formatMessage,
   ]);
-
-  const onCreateTemplate = React.useCallback(async () => {
-    navigate(URLS.ADMIN_CREATE_TEMPLATE(flowId));
-  }, [flowId]);
 
   const onFlowDelete = React.useCallback(async () => {
     await deleteFlow();
@@ -137,16 +130,6 @@ function ContextMenu(props) {
             </MenuItem>
           )}
         </Can>
-
-        {isCurrentUserEnterpriseAdmin && (
-          <Can I="manage" a="Flow" passThrough>
-            {(allowed) => (
-              <MenuItem disabled={!allowed} onClick={onCreateTemplate}>
-                {formatMessage('flow.createTemplateFromFlow')}
-              </MenuItem>
-            )}
-          </Can>
-        )}
 
         <Can I="manage" a="Flow" passThrough>
           {(allowed) => (

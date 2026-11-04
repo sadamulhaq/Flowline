@@ -14,7 +14,7 @@ The build integrations section is best understood when read from beginning to en
 
 :::
 
-Before handling authentication and building a trigger and an action, it's better to explain the `global variable` concept in Automatisch. Automatisch provides you the global variable that you need to use with authentication, triggers, actions, and basically all the stuff you will build for the integration.
+Before handling authentication and building a trigger and an action, it's better to explain the `global variable` concept in Flowline. Flowline provides you the global variable that you need to use with authentication, triggers, actions, and basically all the stuff you will build for the integration.
 
 The global variable is represented as `$` variable in the codebase, and it's a JS object that contains the following properties:
 
@@ -26,7 +26,7 @@ await $.auth.set({
 });
 ```
 
-It's used to set the authentication data, and you can use this method with multiple pairs. The data will be stored in the database and can be retrieved later by using `$.auth.data` property. The data you set with this method will not override its current value but expands it. We use this method when we store the credentials of the third-party service. Note that Automatisch encrypts the data before storing it in the database.
+It's used to set the authentication data, and you can use this method with multiple pairs. The data will be stored in the database and can be retrieved later by using `$.auth.data` property. The data you set with this method will not override its current value but expands it. We use this method when we store the credentials of the third-party service. Note that Flowline encrypts the data before storing it in the database.
 
 ## $.auth.data
 
@@ -72,7 +72,7 @@ await $.http.get('/v1/images/search?order=DESC', {
 });
 ```
 
-Keep in mind that the HTTP client handles the error with the status code that falls out of the range of 2xx. So, you don't need to handle the error manually. It will be processed with the error message or error payload that you can check on the execution details page in Automatisch.
+Keep in mind that the HTTP client handles the error with the status code that falls out of the range of 2xx. So, you don't need to handle the error manually. It will be processed with the error message or error payload that you can check on the execution details page in Flowline.
 
 ## $.step.parameters
 
@@ -80,7 +80,7 @@ Keep in mind that the HTTP client handles the error with the status code that fa
 $.step.parameters; // { key: 'value' }
 ```
 
-It refers to the parameters that are set by users in the UI. We use this property when we need to get the parameters for corresponding triggers and actions. For example [Send a message to channel](https://github.com/automatisch/automatisch/blob/main/packages/backend/src/apps/slack/actions/send-a-message-to-channel/post-message.js) action from Slack integration, we have a step parameter called `message` that we need to use in the action. We can use `$.step.parameters.message` to get the value of the message to send a message to the Slack channel.
+It refers to the parameters that are set by users in the UI. We use this property when we need to get the parameters for corresponding triggers and actions. For example [Send a message to channel](https://github.com/sadamulhaq/Flowline/blob/master/packages/backend/src/apps/slack/actions/send-a-message-to-channel/post-message.js) action from Slack integration, we have a step parameter called `message` that we need to use in the action. We can use `$.step.parameters.message` to get the value of the message to send a message to the Slack channel.
 
 ## $.pushTriggerItem
 
@@ -93,7 +93,7 @@ $.pushTriggerItem({
 });
 ```
 
-It's used to push trigger data to be processed by Automatisch. It must reflect the data that we get from the third-party service. Let's say for search tweets trigger the `resourceData` will be the JSON that represents the single tweet object.
+It's used to push trigger data to be processed by Flowline. It must reflect the data that we get from the third-party service. Let's say for search tweets trigger the `resourceData` will be the JSON that represents the single tweet object.
 
 ## $.setActionItem
 
@@ -103,4 +103,4 @@ $.setActionItem({
 });
 ```
 
-It's used to set the action data to be processed by Automatisch. For actions, it reflects the response data that we get from the third-party service. Let's say for create tweet action it will be the JSON that represents the response payload we get while creating a tweet.
+It's used to set the action data to be processed by Flowline. For actions, it reflects the response data that we get from the third-party service. Let's say for create tweet action it will be the JSON that represents the response payload we get while creating a tweet.

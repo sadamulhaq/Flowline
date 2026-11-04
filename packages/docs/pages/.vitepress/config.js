@@ -12,13 +12,13 @@ export default async () => {
   return defineConfig({
     base: BASE,
     lang: 'en-US',
-    title: 'Automatisch Docs',
+    title: 'Flowline Docs',
     description:
       'Build workflow automation without spending time and money. No code is required.',
     cleanUrls: 'with-subfolders',
     ignoreDeadLinks: true,
     themeConfig: {
-      siteTitle: 'Automatisch',
+      siteTitle: 'Flowline',
       nav: [
         {
           text: 'Guide',
@@ -828,7 +828,7 @@ export default async () => {
             collapsible: true,
             items: [
               {
-                text: 'What is Automatisch?',
+                text: 'What is Flowline?',
                 link: '/',
                 activeMatch: '/',
               },
@@ -922,14 +922,14 @@ export default async () => {
       socialLinks: [
         {
           icon: 'github',
-          link: 'https://github.com/automatisch/automatisch',
+          link: 'https://github.com/sadamulhaq/Flowline',
         },
-        { icon: 'twitter', link: 'https://twitter.com/automatischio' },
+        { icon: 'twitter', link: 'https://twitter.com/flowlineio' },
         { icon: 'discord', link: 'https://discord.gg/dJSah9CVrC' },
       ],
       editLink: {
         pattern:
-          'https://github.com/automatisch/automatisch/edit/main/packages/docs/pages/:path',
+          'https://github.com/sadamulhaq/Flowline/edit/main/packages/docs/pages/:path',
         text: 'Edit this page on GitHub',
       },
       footer: {
@@ -938,7 +938,7 @@ export default async () => {
       algolia: {
         appId: 'I7I8MRYC3P',
         apiKey: '9325eb970bdd6a70b1e35528b39ed2fe',
-        indexName: 'automatisch',
+        indexName: 'flowline',
       },
     },
 

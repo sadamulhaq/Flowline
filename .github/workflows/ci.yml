@@ -1,4 +1,4 @@
-name: Automatisch CI
+name: Flowline CI
 on:
   push:
     branches:

@@ -12,7 +12,6 @@ const globalVariable = async (options) => {
     execution,
     request,
     testRun = false,
-    currentUser,
   } = options;
 
   const isTrigger = step?.isTrigger;
@@ -60,14 +59,6 @@ const globalVariable = async (options) => {
         throw new EarlyExitError();
       },
     },
-    forms: {
-      getAll: async () =>
-        await currentUser.$relatedQuery('forms').orderBy('updated_at', 'desc'),
-    },
-    agents: {
-      getAll: async () =>
-        await currentUser.$relatedQuery('agents').orderBy('updated_at', 'desc'),
-    },
     getLastExecutionStep: async () =>
       (await step?.getLastExecutionStep())?.toJSON(),
     triggerOutput: {
@@ -90,9 +81,8 @@ const globalVariable = async (options) => {
       $.triggerOutput.data.push(triggerItem);
 
       const isWebhookApp = app.key === 'webhook';
-      const isFormsApp = app.key === 'forms';
 
-      if ($.execution.testRun && !isWebhookApp && !isFormsApp) {
+      if ($.execution.testRun && !isWebhookApp) {
         // early exit after receiving one item as it is enough for test execution
         throw new EarlyExitError();
       }

@@ -6,7 +6,6 @@ import appConfig from '@/config/app.js';
 
 import webhookHandlerByFlowId from '@/controllers/webhooks/handler-by-flow-id.js';
 import webhookHandlerSyncByFlowId from '@/controllers/webhooks/handler-sync-by-flow-id.js';
-import { checkIsQuotaExceeded } from '@/middlewares/check-is-quota-exceeded.js';
 import { verifyWebhookRequest } from '@/middlewares/verify-webhook.js';
 
 const router = Router();
@@ -45,10 +44,10 @@ function createRouteHandler(path, handler) {
 
   router
     .route(path)
-    .get(checkIsQuotaExceeded, verifyWebhookRequest, wrappedHandler)
-    .put(checkIsQuotaExceeded, verifyWebhookRequest, wrappedHandler)
-    .patch(checkIsQuotaExceeded, verifyWebhookRequest, wrappedHandler)
-    .post(checkIsQuotaExceeded, verifyWebhookRequest, wrappedHandler);
+    .get(verifyWebhookRequest, wrappedHandler)
+    .put(verifyWebhookRequest, wrappedHandler)
+    .patch(verifyWebhookRequest, wrappedHandler)
+    .post(verifyWebhookRequest, wrappedHandler);
 }
 
 createRouteHandler('/flows/:flowId/sync', webhookHandlerSyncByFlowId);

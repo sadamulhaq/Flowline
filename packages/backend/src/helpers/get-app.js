@@ -18,12 +18,9 @@ function scanAppsInDirectory(dirPath) {
       if (!dirent.isDirectory()) return apps;
 
       const indexPath = join(dirPath, dirent.name, 'index.js');
-      const indexEePath = join(dirPath, dirent.name, 'index.ee.js');
 
       // Store file path instead of immediately importing (lazy loading)
-      if (fs.existsSync(indexEePath)) {
-        apps[dirent.name] = indexEePath;
-      } else if (fs.existsSync(indexPath)) {
+      if (fs.existsSync(indexPath)) {
         apps[dirent.name] = indexPath;
       }
       // Skip directories without index files (like .git, incomplete apps, etc.)

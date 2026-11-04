@@ -3,9 +3,7 @@ import Execution from '@/models/execution.js';
 import ExecutionStep from '@/models/execution-step.js';
 import Step from '@/models/step.js';
 import Base from '@/models/base.js';
-import UsageData from '@/models/usage-data.ee.js';
 import Telemetry from '@/helpers/telemetry/index.js';
-import appConfig from '@/config/app.js';
 import { createExecution } from '@/factories/execution.js';
 import { createExecutionStep } from '@/factories/execution-step.js';
 
@@ -59,72 +57,6 @@ describe('ExecutionStep model', () => {
     });
   });
 
-  describe('isSucceededNonTestRun', () => {
-    it('should return false if it has a test run execution', async () => {
-      const execution = await createExecution({
-        testRun: true,
-      });
-
-      const executionStep = await createExecutionStep({
-        executionId: execution.id,
-      });
-
-      expect(await executionStep.isSucceededNonTestRun()).toBe(false);
-    });
-
-    it('should return false if it has a failure status', async () => {
-      const executionStep = await createExecutionStep({
-        status: 'failure',
-      });
-
-      expect(await executionStep.isSucceededNonTestRun()).toBe(false);
-    });
-
-    it('should return true if it has a succeeded non test run', async () => {
-      const executionStep = await createExecutionStep({
-        status: 'success',
-      });
-
-      expect(await executionStep.isSucceededNonTestRun()).toBe(true);
-    });
-  });
-
-  describe('updateUsageData', () => {
-    it('should call usageData.increaseConsumedTaskCountByOne', async () => {
-      const executionStep = await createExecutionStep();
-
-      const increaseConsumedTaskCountByOneSpy = vi.spyOn(
-        UsageData.prototype,
-        'increaseConsumedTaskCountByOne'
-      );
-
-      await executionStep.updateUsageData();
-
-      expect(increaseConsumedTaskCountByOneSpy).toHaveBeenCalledOnce();
-    });
-  });
-
-  describe('increaseUsageCount', () => {
-    it('should call updateUsageData for cloud and succeeded non test run', async () => {
-      vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-      vi.spyOn(
-        ExecutionStep.prototype,
-        'isSucceededNonTestRun'
-      ).mockReturnValue(true);
-
-      const executionStep = await createExecutionStep();
-
-      const updateUsageDataSpy = vi.spyOn(
-        ExecutionStep.prototype,
-        'updateUsageData'
-      );
-
-      await executionStep.increaseUsageCount();
-
-      expect(updateUsageDataSpy).toHaveBeenCalledOnce();
-    });
-  });
-
   describe('$afterInsert', () => {
     it('should call Telemetry.executionStepCreated', async () => {
       const telemetryExecutionStepCreatedSpy = vi
@@ -136,17 +68,6 @@ describe('ExecutionStep model', () => {
       expect(telemetryExecutionStepCreatedSpy).toHaveBeenCalledWith(
         executionStep
       );
-    });
-
-    it('should call increaseUsageCount', async () => {
-      const increaseUsageCountSpy = vi.spyOn(
-        ExecutionStep.prototype,
-        'increaseUsageCount'
-      );
-
-      await createExecutionStep();
-
-      expect(increaseUsageCountSpy).toHaveBeenCalledOnce();
     });
   });
 

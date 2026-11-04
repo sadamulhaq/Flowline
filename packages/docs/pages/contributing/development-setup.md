@@ -1,15 +1,15 @@
 # Development Setup
 
-Clone main branch of Automatisch.
+Clone main branch of Flowline.
 
 ```bash
-git clone git@github.com:automatisch/automatisch.git
+git clone git@github.com:sadamulhaq/Flowline.git
 ```
 
 Then, install the dependencies for both backend and web packages separately.
 
 ```bash
-cd automatisch
+cd Flowline
 
 # Install backend dependencies
 cd packages/backend
@@ -26,7 +26,7 @@ yarn install
 Make sure that you have **PostgreSQL** and **Redis** installed and running.
 
 :::warning
-Scripts we have prepared for Automatisch work with PostgreSQL version 14. If you have a different version, you might have some problems with the database setup.
+Scripts we have prepared for Flowline work with PostgreSQL version 14. If you have a different version, you might have some problems with the database setup.
 :::
 
 Create a `.env` file in the backend package:
@@ -43,7 +43,7 @@ yarn db:create
 ```
 
 :::warning
-`yarn db:create` commands expect that you have the `postgres` superuser. If not, you can create a superuser called `postgres` manually or you can create the database manually by checking PostgreSQL-related default values from the [app config](https://github.com/automatisch/automatisch/blob/main/packages/backend/src/config/app.js).
+`yarn db:create` commands expect that you have the `postgres` superuser. If not, you can create a superuser called `postgres` manually or you can create the database manually by checking PostgreSQL-related default values from the [app config](https://github.com/sadamulhaq/Flowline/blob/master/packages/backend/src/config/app.js).
 :::
 
 Run the database migrations in the backend folder.
@@ -52,7 +52,7 @@ Run the database migrations in the backend folder.
 yarn db:migrate
 ```
 
-Create a seed user with `user@automatisch.io` email and `sample` password.
+Create a seed user with `user@flowline.example` email and `sample` password.
 
 ```bash
 yarn db:seed:user
@@ -88,7 +88,7 @@ cd packages/web
 yarn dev
 ```
 
-It will automatically open [http://localhost:3001](http://localhost:3001) in your browser. Then, use the `user@automatisch.io` email address and `sample` password to login.
+It will automatically open [http://localhost:3001](http://localhost:3001) in your browser. Then, use the `user@flowline.example` email address and `sample` password to login.
 
 ## Docs server
 

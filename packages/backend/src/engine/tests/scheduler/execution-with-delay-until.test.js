@@ -9,8 +9,6 @@ import { createFlow } from '@/factories/flow.js';
 import { createStep } from '@/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
 import { runFlowWorkerJobs } from '@/test/workers/flow.js';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 
 describe.sequential('Scheduler app async', () => {
   let currentUser,
@@ -89,7 +87,7 @@ describe.sequential('Scheduler app async', () => {
         delay: '',
         email: '',
         title: 'A new day!',
-        topic: 'automatisch-test',
+        topic: 'flowline-test',
         attach: '',
         message: `{{step.${formatterStep.id}.output}}`,
         filename: '',
@@ -106,7 +104,7 @@ describe.sequential('Scheduler app async', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
       title: 'A new day!',
       message: 'Good Morning!',
       priority: 3,
@@ -289,7 +287,7 @@ describe.sequential('Scheduler app async', () => {
       priority: 3,
       tags: [],
       title: 'A new day!',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
     });
 
     expect(executionSteps[3].dataOut).toMatchObject({
@@ -297,20 +295,9 @@ describe.sequential('Scheduler app async', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
       message: 'Good Morning!',
       priority: 3,
     });
-  });
-
-  it('should respond with 422 if it is cloud and quota is exceeded', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-    vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-    await runFlowWorkerJobs(flow.id);
-
-    const execution = await Execution.query().where('flowId', flow.id).first();
-
-    expect(execution).toBeUndefined();
   });
 });

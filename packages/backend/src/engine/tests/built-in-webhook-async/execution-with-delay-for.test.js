@@ -9,8 +9,6 @@ import { createConnection } from '@/factories/connection.js';
 import { createFlow } from '@/factories/flow.js';
 import { createStep } from '@/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 import { waitFlowWorkerJobs, runFlowWorkerJobs } from '@/test/workers/flow.js';
 
 describe.sequential('Built-in webhook app async with delay for', () => {
@@ -91,7 +89,7 @@ describe.sequential('Built-in webhook app async with delay for', () => {
         delay: '',
         email: '',
         title: '',
-        topic: 'automatisch-test',
+        topic: 'flowline-test',
         attach: '',
         message: `Hey {{step.${formatterStep.id}.output}}, welcome to the party!`,
         filename: '',
@@ -108,7 +106,7 @@ describe.sequential('Built-in webhook app async with delay for', () => {
     const timeBeforeTheRequest = new Date();
 
     const response = await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch`
+      `${webhookAsyncStep.webhookPath}?name=flowline`
     );
 
     expect(response.status).toBe(204);
@@ -138,12 +136,12 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
-    await request(app).get(`${webhookAsyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookAsyncStep.webhookPath}?name=flowline`);
 
     await waitFlowWorkerJobs(flow.id);
 
@@ -165,13 +163,13 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
     await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookAsyncStep.webhookPath}?name=flowline&key=A`
     );
 
     await waitFlowWorkerJobs(flow.id);
@@ -207,7 +205,7 @@ describe.sequential('Built-in webhook app async with delay for', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
         key: 'A',
       },
     });
@@ -229,7 +227,7 @@ describe.sequential('Built-in webhook app async with delay for', () => {
     const timeBeforePolling = new Date();
 
     await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookAsyncStep.webhookPath}?name=flowline&key=A`
     );
 
     vi.spyOn(Engine, 'runInBackground');
@@ -261,13 +259,13 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
     await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookAsyncStep.webhookPath}?name=flowline&key=A`
     );
 
     // Wait for the initial job to be processed which was created by the async webhook
@@ -307,7 +305,7 @@ describe.sequential('Built-in webhook app async with delay for', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
         key: 'A',
       },
     });
@@ -326,11 +324,11 @@ describe.sequential('Built-in webhook app async with delay for', () => {
     expect(executionSteps[2].status).toBe('success');
     expect(executionSteps[2].stepId).toBe(formatterStep.id);
     expect(executionSteps[2].dataIn).toMatchObject({
-      input: 'automatisch',
+      input: 'flowline',
       transform: 'capitalize',
     });
     expect(executionSteps[2].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
 
     expect(executionSteps[3].status).toBe('success');
@@ -342,11 +340,11 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       delay: '',
       email: '',
       filename: '',
-      message: 'Hey Automatisch, welcome to the party!',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
       tags: [],
       title: '',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
     });
 
     expect(executionSteps[3].dataOut).toMatchObject({
@@ -354,29 +352,9 @@ describe.sequential('Built-in webhook app async with delay for', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
-  });
-
-  it('should respond with 422 if it is cloud and quota is exceeded', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-    vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-    const timeBeforeTheRequest = new Date();
-
-    const response = await request(app).get(
-      `${webhookAsyncStep.webhookPath}?name=automatisch`
-    );
-
-    expect(response.status).toBe(422);
-
-    const execution = await Execution.query()
-      .where('flowId', flow.id)
-      .andWhere('createdAt', '>', timeBeforeTheRequest.toISOString())
-      .first();
-
-    expect(execution).toBeUndefined();
   });
 });

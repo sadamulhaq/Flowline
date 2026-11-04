@@ -1,6 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { DateTime } from 'luxon';
-import appConfig from '@/config/app.js';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { createUser } from '@/factories/user.js';
 import { createPermission } from '@/factories/permission.js';
 import userSerializer from '@/serializers/user.js';
@@ -28,8 +26,6 @@ describe('userSerializer', () => {
   });
 
   it('should return user data', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(false);
-
     const expectedPayload = {
       createdAt: user.createdAt.getTime(),
       email: user.email,
@@ -60,20 +56,6 @@ describe('userSerializer', () => {
         permissionSerializer(permissionOne),
         permissionSerializer(permissionTwo),
       ],
-    };
-
-    expect(userSerializer(user)).toMatchObject(expectedPayload);
-  });
-
-  it('should return user data with trial expiry date', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-
-    await user.$query().patchAndFetch({
-      trialExpiryDate: DateTime.now().plus({ days: 30 }).toISODate(),
-    });
-
-    const expectedPayload = {
-      trialExpiryDate: user.trialExpiryDate,
     };
 
     expect(userSerializer(user)).toMatchObject(expectedPayload);

@@ -1,4 +1,3 @@
-import Crypto from 'node:crypto';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Flow from '@/models/flow.js';
 import User from '@/models/user.js';
@@ -9,7 +8,6 @@ import Execution from '@/models/execution.js';
 import Telemetry from '@/helpers/telemetry/index.js';
 import * as globalVariableModule from '@/engine/global-variable.js';
 import { createFlow } from '@/factories/flow.js';
-import { createForm } from '@/factories/form.js';
 import { createUser } from '@/factories/user.js';
 import { createFolder } from '@/factories/folder.js';
 import { createStep } from '@/factories/step.js';
@@ -143,31 +141,15 @@ describe('Flow model', () => {
 
       const flows = [referenceFlow];
 
-      vi.spyOn(referenceFlow, 'isPaused').mockResolvedValue();
-
       await Flow.populateStatusProperty(flows);
 
       expect(referenceFlow.status).toBe('draft');
-    });
-
-    it('should assign "paused" to status property when a flow is active, but should be paused', async () => {
-      const referenceFlow = await createFlow({ active: true });
-
-      const flows = [referenceFlow];
-
-      vi.spyOn(referenceFlow, 'isPaused').mockResolvedValue(true);
-
-      await Flow.populateStatusProperty(flows);
-
-      expect(referenceFlow.status).toBe('paused');
     });
 
     it('should assign "published" to status property when a flow is active', async () => {
       const referenceFlow = await createFlow({ active: true });
 
       const flows = [referenceFlow];
-
-      vi.spyOn(referenceFlow, 'isPaused').mockResolvedValue(false);
 
       await Flow.populateStatusProperty(flows);
 
@@ -267,43 +249,6 @@ describe('Flow model', () => {
     const step = await createStep({ flowId: flow.id });
 
     expect(await flow.getStepById(step.id)).toStrictEqual(step);
-  });
-
-  describe('getPublicForm', () => {
-    it('should return the public form', async () => {
-      const flow = await createFlow();
-      const form = await createForm({ userId: flow.userId });
-
-      const triggerStep = await createStep({
-        flowId: flow.id,
-        type: 'trigger',
-        parameters: {
-          formId: form.id,
-        },
-      });
-
-      const publicForm = await flow.getPublicForm();
-
-      expect(publicForm).toMatchObject({
-        id: form.id,
-        name: form.name,
-        webhookUrl: triggerStep.getWebhookUrl(),
-      });
-    });
-
-    it('should throw an error if the trigger step has no form', async () => {
-      const flow = await createFlow();
-
-      await createStep({
-        flowId: flow.id,
-        type: 'trigger',
-        parameters: {
-          formId: Crypto.randomUUID(),
-        },
-      });
-
-      await expect(flow.getPublicForm()).rejects.toThrow();
-    });
   });
 
   it('insertActionStepAtPosition should insert action step at given position', async () => {
@@ -508,34 +453,6 @@ describe('Flow model', () => {
     ]);
   });
 
-  describe('isPaused', () => {
-    it('should return true when user.isAllowedToRunFlows returns false', async () => {
-      const flow = await createFlow();
-
-      const isAllowedToRunFlowsSpy = vi.fn().mockResolvedValue(false);
-      vi.spyOn(flow, '$relatedQuery').mockReturnValue({
-        withSoftDeleted: vi.fn().mockReturnThis(),
-        isAllowedToRunFlows: isAllowedToRunFlowsSpy,
-      });
-
-      expect(await flow.isPaused()).toBe(true);
-      expect(isAllowedToRunFlowsSpy).toHaveBeenCalledOnce();
-    });
-
-    it('should return false when user.isAllowedToRunFlows returns true', async () => {
-      const flow = await createFlow();
-
-      const isAllowedToRunFlowsSpy = vi.fn().mockResolvedValue(true);
-      vi.spyOn(flow, '$relatedQuery').mockReturnValue({
-        withSoftDeleted: vi.fn().mockReturnThis(),
-        isAllowedToRunFlows: isAllowedToRunFlowsSpy,
-      });
-
-      expect(await flow.isPaused()).toBe(false);
-      expect(isAllowedToRunFlowsSpy).toHaveBeenCalledOnce();
-    });
-  });
-
   describe('updateFolder', () => {
     it('should throw an error if the folder does not exist', async () => {
       const user = await createUser();
@@ -589,116 +506,15 @@ describe('Flow model', () => {
   });
 
   describe('getExecutionIntervalAsCron', () => {
-    it('should return 15 minute cron pattern when no license is valid', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(false);
-
+    it('should return 15 minute cron pattern for any interval', async () => {
       const flow = await createFlow({ executionInterval: 5 });
 
       const result = await flow.getExecutionIntervalAsCron();
 
       expect(result).toBe('*/15 * * * *');
-    });
-
-    it('should return 1 minute cron pattern when license is valid and interval is 1', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 1 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('* * * * *');
-    });
-
-    it('should return 2 minute cron pattern when license is valid and interval is 2', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 2 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('*/2 * * * *');
-    });
-
-    it('should return 5 minute cron pattern when license is valid and interval is 5', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 5 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('*/5 * * * *');
-    });
-
-    it('should return 10 minute cron pattern when license is valid and interval is 10', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 10 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('*/10 * * * *');
-    });
-
-    it('should return 15 minute cron pattern when license is valid and interval is 15', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 15 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('*/15 * * * *');
-    });
-
-    it('should return 30 minute cron pattern when license is valid and interval is 30', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 30 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('*/30 * * * *');
-    });
-
-    it('should return 60 minute cron pattern when license is valid and interval is 60', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 60 });
-
-      const result = await flow.getExecutionIntervalAsCron();
-
-      expect(result).toBe('0 * * * *');
     });
 
     it('should return 15 minute cron pattern when executionInterval is null', async () => {
-      vi.spyOn(
-        await import('@/helpers/license.ee.js'),
-        'hasValidLicense'
-      ).mockResolvedValue(true);
-
       // Create flow without executionInterval to avoid validation issues
       const flow = await createFlow();
       flow.executionInterval = null;
@@ -914,80 +730,35 @@ describe('Flow model', () => {
   describe('assignExecutionInterval', () => {
     it('should not change interval when executionInterval is 15', async () => {
       const flow = await createFlow({ executionInterval: 15 });
-
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
       await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).not.toHaveBeenCalled();
       expect(flow.executionInterval).toBe(15);
     });
 
     it('should not change interval when executionInterval is null', async () => {
       const flow = await createFlow();
       flow.executionInterval = null;
-
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
       await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).not.toHaveBeenCalled();
       expect(flow.executionInterval).toBe(null);
     });
 
-    it('should reset interval to 15 when no valid license and interval is custom', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
+    it('should reset interval to 15 when interval is custom', async () => {
       const flow = await createFlow({ executionInterval: 5 });
 
       await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
       expect(flow.executionInterval).toBe(15);
     });
 
-    it('should keep custom interval when valid license exists', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 5 });
-
-      await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
-      expect(flow.executionInterval).toBe(5);
-    });
-
-    it('should reset interval to 15 when no valid license and interval is 1', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
+    it('should reset interval to 15 when interval is 1', async () => {
       const flow = await createFlow({ executionInterval: 1 });
 
       await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
       expect(flow.executionInterval).toBe(15);
     });
 
-    it('should reset interval to 15 when no valid license and interval is 60', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
+    it('should reset interval to 15 when interval is 60', async () => {
       const flow = await createFlow({ executionInterval: 60 });
 
       await flow.assignExecutionInterval();
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
       expect(flow.executionInterval).toBe(15);
     });
   });
@@ -1087,26 +858,9 @@ describe('Flow model', () => {
       expect(assignExecutionIntervalSpy).toHaveBeenCalledOnce();
     });
 
-    it('should reset custom interval to 15 when no valid license during insert', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
+    it('should reset custom interval to 15 during insert', async () => {
       const flow = await createFlow({ executionInterval: 5 });
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
       expect(flow.executionInterval).toBe(15);
-    });
-
-    it('should keep custom interval when valid license exists during insert', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 5 });
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
-      expect(flow.executionInterval).toBe(5);
     });
   });
 
@@ -1127,34 +881,13 @@ describe('Flow model', () => {
       expect(assignExecutionIntervalSpy).toHaveBeenCalledOnce();
     });
 
-    it('should reset custom interval to 15 when no valid license during update', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(false);
-
+    it('should reset custom interval to 15 during update', async () => {
       const flow = await createFlow({ executionInterval: 15 });
 
       const updatedFlow = await flow
         .$query()
         .patchAndFetch({ executionInterval: 5 });
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
       expect(updatedFlow.executionInterval).toBe(15);
-    });
-
-    it('should keep custom interval when valid license exists during update', async () => {
-      const hasValidLicenseSpy = vi
-        .spyOn(await import('@/helpers/license.ee.js'), 'hasValidLicense')
-        .mockResolvedValue(true);
-
-      const flow = await createFlow({ executionInterval: 15 });
-
-      const updatedFlow = await flow
-        .$query()
-        .patchAndFetch({ executionInterval: 5 });
-
-      expect(hasValidLicenseSpy).toHaveBeenCalled();
-      expect(updatedFlow.executionInterval).toBe(5);
     });
   });
 });

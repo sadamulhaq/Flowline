@@ -1,6 +1,5 @@
 import roleSerializer from '@/serializers/role.js';
 import permissionSerializer from '@/serializers/permission.js';
-import appConfig from '@/config/app.js';
 
 const userSerializer = (user) => {
   let userData = {
@@ -20,10 +19,6 @@ const userSerializer = (user) => {
     userData.permissions = user.permissions.map((permission) =>
       permissionSerializer(permission)
     );
-  }
-
-  if (appConfig.isCloud && user.trialExpiryDate) {
-    userData.trialExpiryDate = user.trialExpiryDate;
   }
 
   return userData;

@@ -4,7 +4,6 @@ import Step from '@/models/step.js';
 import User from '@/models/user.js';
 import Folder from '@/models/folder.js';
 import Execution from '@/models/execution.js';
-import Form from '@/models/form.ee.js';
 import ExecutionStep from '@/models/execution-step.js';
 import globalVariable from '@/engine/global-variable.js';
 import logger from '@/helpers/logger.js';
@@ -12,16 +11,9 @@ import Telemetry from '@/helpers/telemetry/index.js';
 import exportFlow from '@/helpers/export-flow.js';
 import importFlow from '@/helpers/import-flow.js';
 import flowQueue from '@/queues/flow.js';
-import { hasValidLicense } from '@/helpers/license.ee.js';
 import Engine from '@/engine/index.js';
 
-const EVERY_1_MINUTE_CRON = '* * * * *';
-const EVERY_2_MINUTES_CRON = '*/2 * * * *';
-const EVERY_5_MINUTES_CRON = '*/5 * * * *';
-const EVERY_10_MINUTES_CRON = '*/10 * * * *';
 const EVERY_15_MINUTES_CRON = '*/15 * * * *';
-const EVERY_30_MINUTES_CRON = '*/30 * * * *';
-const EVERY_60_MINUTES_CRON = '0 * * * *';
 
 class Flow extends Base {
   static tableName = 'flows';
@@ -114,20 +106,8 @@ class Flow extends Base {
   }
 
   static async populateStatusProperty(flows) {
-    const referenceFlow = flows[0];
-
-    if (referenceFlow) {
-      const shouldBePaused = await referenceFlow.isPaused();
-
-      for (const flow of flows) {
-        if (!flow.active) {
-          flow.status = 'draft';
-        } else if (flow.active && shouldBePaused) {
-          flow.status = 'paused';
-        } else {
-          flow.status = 'published';
-        }
-      }
+    for (const flow of flows) {
+      flow.status = flow.active ? 'published' : 'draft';
     }
   }
 
@@ -180,22 +160,6 @@ class Flow extends Base {
 
   async getStepById(stepId) {
     return await this.$relatedQuery('steps').findById(stepId).throwIfNotFound();
-  }
-
-  async getPublicForm() {
-    const triggerStep = await this.getTriggerStep();
-
-    const form = await Form.query()
-      .findOne({ id: triggerStep.parameters.formId })
-      .throwIfNotFound();
-
-    const computedForm = {
-      ...form,
-      webhookUrl: await triggerStep.getWebhookUrl(),
-      asyncRedirectUrl: triggerStep.parameters.asyncRedirectUrl,
-    };
-
-    return computedForm;
   }
 
   async insertActionStepAtPosition(position) {
@@ -385,12 +349,6 @@ class Flow extends Base {
       .first();
   }
 
-  async isPaused() {
-    const user = await this.$relatedQuery('user').withSoftDeleted();
-    const allowedToRunFlows = await user.isAllowedToRunFlows();
-    return allowedToRunFlows ? false : true;
-  }
-
   async updateFolder(folderId) {
     const user = await this.$relatedQuery('user');
 
@@ -411,31 +369,8 @@ class Flow extends Base {
     return this.$query().withGraphFetched('folder');
   }
 
-  async getExecutionIntervalAsCron() {
-    const interval = this.executionInterval || 15;
-
-    if (!(await hasValidLicense())) {
-      return EVERY_15_MINUTES_CRON;
-    }
-
-    switch (interval) {
-      case 1:
-        return EVERY_1_MINUTE_CRON;
-      case 2:
-        return EVERY_2_MINUTES_CRON;
-      case 5:
-        return EVERY_5_MINUTES_CRON;
-      case 10:
-        return EVERY_10_MINUTES_CRON;
-      case 15:
-        return EVERY_15_MINUTES_CRON;
-      case 30:
-        return EVERY_30_MINUTES_CRON;
-      case 60:
-        return EVERY_60_MINUTES_CRON;
-      default:
-        return EVERY_15_MINUTES_CRON;
-    }
+  getExecutionIntervalAsCron() {
+    return EVERY_15_MINUTES_CRON;
   }
 
   async updateStatus(newActiveValue) {
@@ -558,11 +493,7 @@ class Flow extends Base {
 
   async assignExecutionInterval() {
     if (this.executionInterval && this.executionInterval !== 15) {
-      const validLicense = await hasValidLicense();
-
-      if (!validLicense) {
-        this.executionInterval = 15;
-      }
+      this.executionInterval = 15;
     }
   }
 

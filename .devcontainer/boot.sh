@@ -14,11 +14,11 @@ echo "
 PORT=$BACKEND_PORT
 WEB_APP_URL=http://localhost:$WEB_PORT
 APP_ENV=development
-POSTGRES_DATABASE=automatisch
+POSTGRES_DATABASE=flowline
 POSTGRES_PORT=5432
 POSTGRES_HOST=postgres
-POSTGRES_USERNAME=automatisch_user
-POSTGRES_PASSWORD=automatisch_password
+POSTGRES_USERNAME=flowline_user
+POSTGRES_PASSWORD=flowline_password
 ENCRYPTION_KEY=sample_encryption_key
 WEBHOOK_SECRET_KEY=sample_webhook_secret_key
 APP_SECRET_KEY=sample_app_secret_key

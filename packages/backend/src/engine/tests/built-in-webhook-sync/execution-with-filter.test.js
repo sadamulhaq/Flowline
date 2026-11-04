@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import request from 'supertest';
 import app from '../../../app.js';
 import Execution from '@/models/execution.js';
@@ -6,8 +6,6 @@ import { createUser } from '@/factories/user.js';
 import { createFlow } from '@/factories/flow.js';
 import { createStep } from '@/factories/step.js';
 import ExecutionStep from '@/models/execution-step.js';
-import appConfig from '@/config/app.js';
-import User from '@/models/user.js';
 
 describe.sequential('Built-in webhook app sync with filter', () => {
   let currentUser,
@@ -102,11 +100,11 @@ describe.sequential('Built-in webhook app sync with filter', () => {
 
   it('should respond with status code, body and headers specified in the respond with action', async () => {
     const response = await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookSyncStep.webhookPath}?name=flowline&key=A`
     );
 
     expect(response.status).toBe(422);
-    expect(response.text).toBe('Hey Automatisch, welcome to the party!');
+    expect(response.text).toBe('Hey Flowline, welcome to the party!');
     expect(response.headers['sample-header-one']).toBe('sample-value-one');
     expect(response.headers['sample-header-two']).toBe('sample-value-two');
   });
@@ -115,7 +113,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
     const timeBeforeTheRequest = new Date();
 
     await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookSyncStep.webhookPath}?name=flowline&key=A`
     );
 
     const execution = await Execution.query()
@@ -132,7 +130,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
     const timeBeforeTheRequest = new Date();
 
     await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch&key=A`
+      `${webhookSyncStep.webhookPath}?name=flowline&key=A`
     );
 
     const execution = await Execution.query()
@@ -164,7 +162,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
       },
     });
 
@@ -200,17 +198,17 @@ describe.sequential('Built-in webhook app sync with filter', () => {
     expect(executionSteps[2].status).toBe('success');
     expect(executionSteps[2].stepId).toBe(formatterStep.id);
     expect(executionSteps[2].dataIn).toMatchObject({
-      input: 'automatisch',
+      input: 'flowline',
       transform: 'capitalize',
     });
     expect(executionSteps[2].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
 
     expect(executionSteps[3].status).toBe('success');
     expect(executionSteps[3].stepId).toBe(respondWithStep.id);
     expect(executionSteps[3].dataIn).toMatchObject({
-      body: 'Hey Automatisch, welcome to the party!',
+      body: 'Hey Flowline, welcome to the party!',
       headers: [
         {
           key: 'sample-header-one',
@@ -224,7 +222,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
       statusCode: '422',
     });
     expect(executionSteps[3].dataOut).toMatchObject({
-      body: 'Hey Automatisch, welcome to the party!',
+      body: 'Hey Flowline, welcome to the party!',
       headers: {
         'sample-header-one': 'sample-value-one',
         'sample-header-two': 'sample-value-two',
@@ -236,7 +234,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
     const timeBeforeTheRequest = new Date();
 
     await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch&key=B`
+      `${webhookSyncStep.webhookPath}?name=flowline&key=B`
     );
 
     const execution = await Execution.query()
@@ -268,7 +266,7 @@ describe.sequential('Built-in webhook app sync with filter', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
         key: 'B',
       },
     });
@@ -289,25 +287,5 @@ describe.sequential('Built-in webhook app sync with filter', () => {
       ],
     });
     expect(executionSteps[1].dataOut).toBeNull();
-  });
-
-  it('should respond with 422 if it is cloud and quota is exceeded', async () => {
-    vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
-    vi.spyOn(User.prototype, 'isAllowedToRunFlows').mockResolvedValue(false);
-
-    const timeBeforeTheRequest = new Date();
-
-    const response = await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch&key=A`
-    );
-
-    expect(response.status).toBe(422);
-
-    const execution = await Execution.query()
-      .where('flowId', flow.id)
-      .andWhere('createdAt', '>', timeBeforeTheRequest.toISOString())
-      .first();
-
-    expect(execution).toBeUndefined();
   });
 });

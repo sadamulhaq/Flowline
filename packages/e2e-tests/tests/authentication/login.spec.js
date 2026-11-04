@@ -14,7 +14,7 @@ publicTest.describe('Login page', () => {
   });
 
   publicTest(`doesn't let un-existing user login`, async ({ loginPage }) => {
-    await loginPage.login('nonexisting@automatisch.io', 'sample');
+    await loginPage.login('nonexisting@flowline.example', 'sample');
 
     await expect(loginPage.page).toHaveURL('/login');
   });

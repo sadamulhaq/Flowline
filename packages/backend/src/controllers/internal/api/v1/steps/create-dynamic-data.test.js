@@ -27,12 +27,12 @@ describe('POST /internal/api/v1/steps/:stepId/dynamic-data', () => {
     beforeEach(async () => {
       repositories = [
         {
-          value: 'automatisch/automatisch',
-          name: 'automatisch/automatisch',
+          value: 'flowline/flowline',
+          name: 'flowline/flowline',
         },
         {
-          value: 'automatisch/sample',
-          name: 'automatisch/sample',
+          value: 'flowline/sample',
+          name: 'flowline/sample',
         },
       ];
 

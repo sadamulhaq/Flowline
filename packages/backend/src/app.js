@@ -6,7 +6,6 @@ import cors from 'cors';
 import appConfig from './config/app.js';
 import corsOptions from './config/cors-options.js';
 import morgan from './helpers/morgan.js';
-import * as Sentry from './helpers/sentry.ee.js';
 import assetsHandler from './helpers/assets-handler.js';
 import webUIHandler from './helpers/web-ui-handler.js';
 import errorHandler from './helpers/error-handler.js';
@@ -17,16 +16,10 @@ import {
 } from '@/helpers/create-bull-board-handler.js';
 import injectBullBoardHandler from '@/helpers/inject-bull-board-handler.js';
 import router from '@/routes/index.js';
-import configurePassport from '@/helpers/passport.js';
 
 createBullBoardHandler(serverAdapter);
 
 const app = express();
-
-Sentry.init(app);
-
-Sentry.attachRequestHandler(app);
-Sentry.attachTracingHandler(app);
 
 injectBullBoardHandler(app, serverAdapter);
 
@@ -55,8 +48,6 @@ app.use(
 
 app.use(cors(corsOptions));
 
-configurePassport(app);
-
 app.use('/', router);
 
 webUIHandler(app);
@@ -65,8 +56,6 @@ webUIHandler(app);
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
-Sentry.attachErrorHandler(app);
 
 app.use(errorHandler);
 

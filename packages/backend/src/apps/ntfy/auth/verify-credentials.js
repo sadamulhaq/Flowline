@@ -1,5 +1,5 @@
 const verifyCredentials = async ($) => {
-  await $.http.post('/', { topic: 'automatisch' });
+  await $.http.post('/', { topic: 'flowline' });
   let screenName = $.auth.data.serverUrl;
 
   if ($.auth.data.username) {

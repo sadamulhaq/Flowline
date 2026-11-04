@@ -1,4 +1,4 @@
-const NAMESPACE = 'automatisch';
+const NAMESPACE = 'flowline';
 const makeKey = (key) => `${NAMESPACE}.${key}`;
 
 export const setItem = (key, value) => {

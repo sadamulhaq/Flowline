@@ -84,7 +84,7 @@ export default defineAction({
 Let's briefly explain what we defined here.
 
 - `name`: The name of the action.
-- `key`: The key of the action. This is used to identify the action in Automatisch.
+- `key`: The key of the action. This is used to identify the action in Flowline.
 - `description`: The description of the action.
 - `arguments`: The arguments of the action. These are the values that the user provides when using the action.
 - `run`: The function that is executed when the action is executed.
@@ -120,8 +120,8 @@ export default defineAction({
 
 In this action, we send a request to the cat API to mark the cat image as favorite. We used the `$.http.post` method to send the request. The request body contains the image ID as it's required by the API.
 
-`$.setActionItem` is used to set the result of the action, so we set the response data as the action item. This is used to display the result of the action in the Automatisch UI and can be used in the next steps of the workflow.
+`$.setActionItem` is used to set the result of the action, so we set the response data as the action item. This is used to display the result of the action in the Flowline UI and can be used in the next steps of the workflow.
 
 ## Test the action
 
-Go to the flows page of Automatisch and create a new flow. Add the `Search cat images` as a trigger in the flow. Add the `Mark the cat image as favorite` action to the flow as a second step. Add one of the image IDs you got from the cat API as `Image ID` argument to the action. Click `Test & Continue` button. If you a see JSON response in the user interface, it means that both the trigger and the action we built are working properly.
+Go to the flows page of Flowline and create a new flow. Add the `Search cat images` as a trigger in the flow. Add the `Mark the cat image as favorite` action to the flow as a second step. Add one of the image IDs you got from the cat API as `Image ID` argument to the action. Click `Test & Continue` button. If you a see JSON response in the user interface, it means that both the trigger and the action we built are working properly.

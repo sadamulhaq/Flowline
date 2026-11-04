@@ -19,7 +19,7 @@ async function fetchAdminRole() {
 }
 
 export async function createUser(
-  email = 'user@automatisch.io',
+  email = 'user@flowline.example',
   password = 'sample'
 ) {
   if (appConfig.disableSeedUser) {

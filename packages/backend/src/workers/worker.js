@@ -1,6 +1,5 @@
 import { Worker } from 'bullmq';
 
-import * as Sentry from '@/helpers/sentry.ee.js';
 import redisConfig from '@/config/redis.js';
 import logger from '@/helpers/logger.js';
 
@@ -16,12 +15,6 @@ export const generateWorker = (workerName, job) => {
       JOB ID: ${job.id} - has failed to be completed! ${err.message}
       \n ${err.stack}
     `);
-
-    Sentry.captureException(err, {
-      extra: {
-        jobId: job.id,
-      },
-    });
   });
 
   return worker;

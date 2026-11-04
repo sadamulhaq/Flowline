@@ -23,7 +23,6 @@ const getCurrentUserMock = (currentUser, role, permissions) => {
         updatedAt: role.updatedAt.getTime(),
       },
       status: currentUser.status,
-      trialExpiryDate: currentUser.trialExpiryDate.toISOString(),
       updatedAt: currentUser.updatedAt.getTime(),
     },
     meta: {

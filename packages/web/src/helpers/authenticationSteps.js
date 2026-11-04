@@ -45,7 +45,7 @@ export const processPopupMessage = (popup) => {
     }
 
     const messageHandler = async (event) => {
-      if (event.data.source !== 'automatisch') {
+      if (event.data.source !== 'flowline') {
         return;
       }
 

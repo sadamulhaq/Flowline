@@ -4,7 +4,6 @@ import { Settings } from 'luxon';
 import ThemeProvider from 'components/ThemeProvider';
 import IntlProvider from 'components/IntlProvider';
 import SnackbarProvider from 'components/SnackbarProvider';
-import MetadataProvider from 'components/MetadataProvider';
 import { AuthenticationProvider } from 'contexts/Authentication';
 import QueryClientProvider from 'components/QueryClientProvider';
 import Router from 'components/Router';
@@ -22,9 +21,7 @@ root.render(
       <AuthenticationProvider>
         <QueryClientProvider>
           <IntlProvider>
-            <ThemeProvider>
-              <MetadataProvider>{routes}</MetadataProvider>
-            </ThemeProvider>
+            <ThemeProvider>{routes}</ThemeProvider>
           </IntlProvider>
         </QueryClientProvider>
       </AuthenticationProvider>

@@ -3,7 +3,6 @@ import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import appInfoConverter from '@/helpers/app-info-converter.js';
 import getApp from '@/helpers/get-app.js';
-import { hasValidLicense } from '@/helpers/license.ee.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -11,71 +10,29 @@ class App {
   static folderPath = join(__dirname, '../apps');
   static privatePath = join(__dirname, '../private-apps');
 
+  static hasIndexFile(dirPath, name) {
+    const fullPath = join(dirPath, name);
+
+    return (
+      fs.statSync(fullPath).isDirectory() &&
+      fs.existsSync(join(fullPath, 'index.js'))
+    );
+  }
+
   static async list() {
-    // Scan main apps directory - only include dirs with index.js
-    const directories = fs.readdirSync(this.folderPath).filter((file) => {
-      const fullPath = join(this.folderPath, file);
-      if (!fs.statSync(fullPath).isDirectory()) return false;
+    const directories = fs
+      .readdirSync(this.folderPath)
+      .filter((file) => this.hasIndexFile(this.folderPath, file));
 
-      // Check if directory has index.js or index.ee.js
-      const indexPath = join(fullPath, 'index.js');
-      const indexEePath = join(fullPath, 'index.ee.js');
-      return fs.existsSync(indexPath) || fs.existsSync(indexEePath);
-    });
-
-    // Add private apps if directory exists
-    if (fs.existsSync(this.privatePath)) {
-      const privateDirectories = fs
-        .readdirSync(this.privatePath)
-        .filter((file) => {
-          const fullPath = join(this.privatePath, file);
-          if (!fs.statSync(fullPath).isDirectory()) return false;
-
-          // Check if directory has index.js or index.ee.js
-          const indexPath = join(fullPath, 'index.js');
-          const indexEePath = join(fullPath, 'index.ee.js');
-          return fs.existsSync(indexPath) || fs.existsSync(indexEePath);
-        });
-
-      // Combine directories, avoiding duplicates, and sort alphabetically
-      const allDirectories = [
-        ...new Set([...directories, ...privateDirectories]),
-      ].sort();
-
-      if (!(await hasValidLicense())) {
-        // Filter out enterprise apps if no valid license
-        const nonEnterpriseApps = [];
-
-        for (const dir of allDirectories) {
-          const appData = await getApp(dir, true);
-
-          if (!appData.enterprise) {
-            nonEnterpriseApps.push(dir);
-          }
-        }
-
-        return nonEnterpriseApps;
-      }
-
-      return allDirectories;
+    if (!fs.existsSync(this.privatePath)) {
+      return directories.sort();
     }
 
-    if (!(await hasValidLicense())) {
-      // Filter out enterprise apps if no valid license
-      const nonEnterpriseApps = [];
+    const privateDirectories = fs
+      .readdirSync(this.privatePath)
+      .filter((file) => this.hasIndexFile(this.privatePath, file));
 
-      for (const dir of directories) {
-        const appData = await getApp(dir, true);
-
-        if (!appData.enterprise) {
-          nonEnterpriseApps.push(dir);
-        }
-      }
-
-      return nonEnterpriseApps.sort();
-    }
-
-    return directories.sort();
+    return [...new Set([...directories, ...privateDirectories])].sort();
   }
 
   static async findAll(name, stripFuncs = true) {

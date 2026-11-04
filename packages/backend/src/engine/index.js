@@ -2,7 +2,6 @@ import isEmpty from 'lodash/isEmpty.js';
 import buildFlowContext from '@/engine/flow/context.js';
 import getInitialData from '@/engine/initial-data/get.js';
 import processInitialDataError from '@/engine/initial-data/process-error.js';
-import checkLimits from '@/engine/cloud/check-limits.js';
 import iterateSteps from '@/engine/steps/iterate.js';
 import flowQueue from '@/queues/flow.js';
 import {
@@ -14,13 +13,11 @@ const run = async ({
   flowId,
   untilStepId,
   triggeredByRequest,
-  triggeredByMcp,
   request,
   testRun = false,
   resumeStepId,
   resumeExecutionId,
   initialData,
-  mcpToolId,
 }) => {
   // Build flow context
   const {
@@ -36,19 +33,6 @@ const run = async ({
     flowId,
     untilStepId,
   });
-
-  // Check if the user is allowed to run the flow in cloud when it's not a test run
-  const { isAllowedToRunFlows } = await checkLimits({ flow });
-
-  if (!testRun && !isAllowedToRunFlows) {
-    if (triggeredByMcp) {
-      return {
-        mcpError: `Flow execution quota exceeded for \`${flow.name}\`. Please check your subscription limits.`,
-      };
-    }
-
-    return;
-  }
 
   if (resumeStepId && resumeExecutionId) {
     return await iterateSteps({
@@ -120,9 +104,7 @@ const run = async ({
       actionSteps,
       testRun,
       triggeredByRequest,
-      triggeredByMcp,
       initialDataItem,
-      mcpToolId,
     });
 
     if (result) {

@@ -23,13 +23,13 @@ describe('POST /internal/api/v1/installation/users', () => {
       await request(app)
         .post('/internal/api/v1/installation/users')
         .send({
-          email: 'user@automatisch.io',
+          email: 'user@flowline.example',
           password: 'password',
           fullName: 'Initial admin',
         })
         .expect(204);
 
-      const user = await User.query().findOne({ email: 'user@automatisch.io' });
+      const user = await User.query().findOne({ email: 'user@flowline.example' });
 
       expect(user.roleId).toBe(adminRole.id);
       expect(await Config.isInstallationCompleted()).toBe(true);
@@ -45,7 +45,7 @@ describe('POST /internal/api/v1/installation/users', () => {
       await request(app)
         .post('/internal/api/v1/installation/users')
         .send({
-          email: 'user@automatisch.io',
+          email: 'user@flowline.example',
           password: 'password',
           fullName: 'Initial admin',
         })
@@ -68,13 +68,13 @@ describe('POST /internal/api/v1/installation/users', () => {
       await request(app)
         .post('/internal/api/v1/installation/users')
         .send({
-          email: 'user@automatisch.io',
+          email: 'user@flowline.example',
           password: 'password',
           fullName: 'Initial admin',
         })
         .expect(403);
 
-      const user = await User.query().findOne({ email: 'user@automatisch.io' });
+      const user = await User.query().findOne({ email: 'user@flowline.example' });
 
       expect(user).toBeUndefined();
       expect(await Config.isInstallationCompleted()).toBe(true);

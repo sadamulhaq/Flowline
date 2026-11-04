@@ -1,3 +1,3 @@
 # Cryptography
 
-Cryptography is a built-in app shipped with Automatisch, allowing you to perform cryptographic operations without needing to connect to any external services.
+Cryptography is a built-in app shipped with Flowline, allowing you to perform cryptographic operations without needing to connect to any external services.
