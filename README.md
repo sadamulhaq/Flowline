@@ -45,4 +45,4 @@ If you have any questions or problems, please visit our GitHub issues page, and 
 
 Flowline is licensed under the [AGPL-3.0 license](LICENSE.agpl).
 
-Based on Automatisch. Modified on 2026-11-05.
+Modified on 2026-11-05. Modifications Copyright (c) 2026 Sadam Ul Haq.
