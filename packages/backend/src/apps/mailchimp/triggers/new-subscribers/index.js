@@ -44,10 +44,10 @@ export default defineTrigger({
     const computedWebhookEvent = {
       data: {
         id: Crypto.randomUUID(),
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         ip_opt: '127.0.0.1',
         merges: {
-          EMAIL: 'user@automatisch.io',
+          EMAIL: 'user@flowline.example',
           FNAME: 'FNAME',
           LNAME: 'LNAME',
           PHONE: '',

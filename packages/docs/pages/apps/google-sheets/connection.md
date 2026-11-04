@@ -2,7 +2,7 @@
 
 :::info
 This page explains the steps you need to follow to set up the Google Sheets
-connection in Automatisch. If any of the steps are outdated, please let us know!
+connection in Flowline. If any of the steps are outdated, please let us know!
 :::
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com) to create a project.
@@ -21,8 +21,8 @@ connection in Automatisch. If any of the steps are outdated, please let us know!
 14. Go to [Credentials](https://console.cloud.google.com/apis/credentials) in Google Cloud console.
 15. Click on the **Create Credentials** button and select the **OAuth client ID** option.
 16. Select the application type as **Web application** and fill the **Name** field.
-17. Copy **OAuth Redirect URL** from Automatisch to **Authorized redirect URIs** field, and click on the **Create** button.
-18. Copy the **Your Client ID** value from the following popup to the `Client ID` field on Automatisch.
-19. Copy the **Your Client Secret** value from the following popup to the `Client Secret` field on Automatisch.
-20. Click **Submit** button on Automatisch.
+17. Copy **OAuth Redirect URL** from Flowline to **Authorized redirect URIs** field, and click on the **Create** button.
+18. Copy the **Your Client ID** value from the following popup to the `Client ID` field on Flowline.
+19. Copy the **Your Client Secret** value from the following popup to the `Client Secret` field on Flowline.
+20. Click **Submit** button on Flowline.
 21. Congrats! Start using your new Google Sheets connection within the flows.

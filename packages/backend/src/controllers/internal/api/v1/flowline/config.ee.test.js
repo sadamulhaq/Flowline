@@ -2,12 +2,12 @@ import { vi, expect, describe, it } from 'vitest';
 import request from 'supertest';
 import { updateConfig } from '@/factories/config.js';
 import app from '../../../../../app.js';
-import configMock from '@/mocks/rest/internal/api/v1/automatisch/config.js';
+import configMock from '@/mocks/rest/internal/api/v1/flowline/config.js';
 import * as license from '@/helpers/license.ee.js';
 import appConfig from '@/config/app.js';
 
-describe('GET /internal/api/v1/automatisch/config', () => {
-  it('should return Automatisch config along with static config', async () => {
+describe('GET /internal/api/v1/flowline/config', () => {
+  it('should return Flowline config along with static config', async () => {
     vi.spyOn(license, 'hasValidLicense').mockResolvedValue(true);
     vi.spyOn(appConfig, 'disableNotificationsPage', 'get').mockReturnValue(
       true
@@ -40,7 +40,7 @@ describe('GET /internal/api/v1/automatisch/config', () => {
     });
 
     const response = await request(app)
-      .get('/internal/api/v1/automatisch/config')
+      .get('/internal/api/v1/flowline/config')
       .expect(200);
 
     const expectedPayload = configMock({

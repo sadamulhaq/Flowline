@@ -11,14 +11,14 @@ import SplitButton from 'components/SplitButton';
 import * as URLS from 'config/urls';
 import useCurrentUserAbility from 'hooks/useCurrentUserAbility';
 import useFormatMessage from 'hooks/useFormatMessage';
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 
 export default function FlowsButtons() {
   const location = useLocation();
   const formatMessage = useFormatMessage();
   const currentUserAbility = useCurrentUserAbility();
   const theme = useTheme();
-  const { data: config } = useAutomatischConfig();
+  const { data: config } = useFlowlineConfig();
   const matchSmallScreens = useMediaQuery(theme.breakpoints.down('md'));
   const canCreateFlow = currentUserAbility.can('manage', 'Flow');
   const enableTemplates = config?.data.enableTemplates === true;

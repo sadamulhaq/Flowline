@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 import useFormatMessage from 'hooks/useFormatMessage';
 
 const LogoImage = styled('img')(() => ({
@@ -13,7 +13,7 @@ const LogoImage = styled('img')(() => ({
 }));
 
 const LayoutFooter = () => {
-  const { data: config } = useAutomatischConfig();
+  const { data: config } = useFlowlineConfig();
   const formatMessage = useFormatMessage();
 
   if (config?.data.enableFooter !== true) return null;

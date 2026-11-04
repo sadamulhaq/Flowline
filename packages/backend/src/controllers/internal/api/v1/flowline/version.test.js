@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest';
 import request from 'supertest';
 import app from '../../../../../app.js';
 
-describe('GET /internal/api/v1/automatisch/version', () => {
-  it('should return Automatisch version', async () => {
+describe('GET /internal/api/v1/flowline/version', () => {
+  it('should return Flowline version', async () => {
     const response = await request(app)
-      .get('/internal/api/v1/automatisch/version')
+      .get('/internal/api/v1/flowline/version')
       .expect(200);
 
     const expectedPayload = {

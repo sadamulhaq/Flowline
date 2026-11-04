@@ -172,7 +172,7 @@ test.describe('Role management page', () => {
       await adminUsersPage.createUserButton.click();
       await adminCreateUserPage.fullNameInput.fill('User Role Test');
       await adminCreateUserPage.emailInput.fill(
-        'user-role-test@automatisch.io'
+        'user-role-test@flowline.example'
       );
       await adminCreateUserPage.roleInput.click();
       await adminCreateUserPage.page
@@ -200,7 +200,7 @@ test.describe('Role management page', () => {
         state: 'detached',
       });
       const row = await adminUsersPage.findUserPageWithEmail(
-        'user-role-test@automatisch.io'
+        'user-role-test@flowline.example'
       );
       await adminUsersPage.clickEditUser(row);
       await adminEditUserPage.roleInput.click();
@@ -250,7 +250,7 @@ test.describe('Role management page', () => {
       await adminCreateUserPage.isMounted();
       await adminCreateUserPage.fullNameInput.fill('User Delete Role Test');
       await adminCreateUserPage.emailInput.fill(
-        'user-delete-role-test@automatisch.io'
+        'user-delete-role-test@flowline.example'
       );
       await adminCreateUserPage.roleInput.click();
       await adminCreateUserPage.page
@@ -266,7 +266,7 @@ test.describe('Role management page', () => {
     await test.step('Delete this user', async () => {
       await adminUsersPage.navigateToAndWaitForUsers();
       const row = await adminUsersPage.findUserPageWithEmail(
-        'user-delete-role-test@automatisch.io'
+        'user-delete-role-test@flowline.example'
       );
       const modal = await adminUsersPage.clickDeleteUser(row);
       await modal.deleteButton.click();
@@ -313,7 +313,7 @@ test('Accessibility of role management page', async ({
     await adminUsersPage.createUserButton.click();
     await adminCreateUserPage.isMounted();
     await adminCreateUserPage.fullNameInput.fill('Role Test');
-    await adminCreateUserPage.emailInput.fill('basic-role-test@automatisch.io');
+    await adminCreateUserPage.emailInput.fill('basic-role-test@flowline.example');
     await adminCreateUserPage.roleInput.click();
     await adminCreateUserPage.page
       .getByRole('option', { name: 'Basic Test' })
@@ -338,7 +338,7 @@ test('Accessibility of role management page', async ({
     await acceptInvitationPage.acceptInvitation('sample');
 
     const loginPage = new LoginPage(page);
-    await loginPage.login('basic-role-test@automatisch.io', 'sample');
+    await loginPage.login('basic-role-test@flowline.example', 'sample');
     await expect(loginPage.loginButton).not.toBeVisible();
     await expect(page).toHaveURL('/flows');
   });
@@ -364,7 +364,7 @@ test('Accessibility of role management page', async ({
   await test.step('Move the user off the role', async () => {
     await adminUsersPage.navigateTo();
     const row = await adminUsersPage.findUserPageWithEmail(
-      'basic-role-test@automatisch.io'
+      'basic-role-test@flowline.example'
     );
     await adminUsersPage.clickEditUser(row);
     await adminEditUserPage.isMounted();

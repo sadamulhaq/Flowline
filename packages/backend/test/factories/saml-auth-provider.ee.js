@@ -8,9 +8,9 @@ export const createSamlAuthProvider = async (params = {}) => {
 
   params.entryPoint =
     params?.entryPoint ||
-    'https://example.com/auth/realms/automatisch/protocol/saml';
+    'https://example.com/auth/realms/flowline/protocol/saml';
 
-  params.issuer = params?.issuer || 'automatisch-client';
+  params.issuer = params?.issuer || 'flowline-client';
 
   params.firstnameAttributeName =
     params?.firstnameAttributeName || 'urn:oid:2.1.1.42';

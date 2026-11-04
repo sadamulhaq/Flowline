@@ -1,6 +1,6 @@
 # Available Apps
 
-The following integrations are currently supported by Automatisch.
+The following integrations are currently supported by Flowline.
 
 - [Airbrake](/apps/airbrake/triggers)
 - [Airtable](/apps/airtable/actions)

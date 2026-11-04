@@ -520,12 +520,12 @@ describe('User model', () => {
   describe('authenticate', () => {
     it('should create and return the token for correct email and password', async () => {
       const user = await createUser({
-        email: 'test-user@automatisch.io',
+        email: 'test-user@flowline.example',
         password: 'sample-password',
       });
 
       const token = await User.authenticate(
-        'test-user@automatisch.io',
+        'test-user@flowline.example',
         'sample-password'
       );
 
@@ -538,12 +538,12 @@ describe('User model', () => {
 
     it('should return undefined for existing email and incorrect password', async () => {
       await createUser({
-        email: 'test-user@automatisch.io',
+        email: 'test-user@flowline.example',
         password: 'sample-password',
       });
 
       const token = await User.authenticate(
-        'test-user@automatisch.io',
+        'test-user@flowline.example',
         'wrong-password'
       );
 
@@ -552,11 +552,11 @@ describe('User model', () => {
 
     it('should return undefined for non-existing email', async () => {
       await createUser({
-        email: 'test-user@automatisch.io',
+        email: 'test-user@flowline.example',
         password: 'sample-password',
       });
 
-      const token = await User.authenticate('non-existing-user@automatisch.io');
+      const token = await User.authenticate('non-existing-user@flowline.example');
 
       expect(token).toBe(undefined);
     });
@@ -938,7 +938,7 @@ describe('User model', () => {
   });
 
   describe('isAllowedToRunFlows', () => {
-    it('should return true when Automatisch is self hosted', async () => {
+    it('should return true when Flowline is self hosted', async () => {
       const user = new User();
 
       vi.spyOn(appConfig, 'isSelfHosted', 'get').mockReturnValue(true);
@@ -980,7 +980,7 @@ describe('User model', () => {
   });
 
   describe('inTrial', () => {
-    it('should return false when Automatisch is self hosted', async () => {
+    it('should return false when Flowline is self hosted', async () => {
       const user = new User();
 
       vi.spyOn(appConfig, 'isSelfHosted', 'get').mockReturnValue(true);
@@ -1074,7 +1074,7 @@ describe('User model', () => {
       expect(await user.hasActiveSubscription()).toBe(false);
     });
 
-    it('should return false if Automatisch is not a cloud installation', async () => {
+    it('should return false if Flowline is not a cloud installation', async () => {
       const user = new User();
 
       vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(false);
@@ -1499,13 +1499,13 @@ describe('User model', () => {
 
     const adminUser = await User.createAdmin({
       fullName: 'Sample admin',
-      email: 'admin@automatisch.io',
+      email: 'admin@flowline.example',
       password: 'sample',
     });
 
     expect(adminUser).toMatchObject({
       fullName: 'Sample admin',
-      email: 'admin@automatisch.io',
+      email: 'admin@flowline.example',
       roleId: adminRole.id,
     });
 
@@ -1519,13 +1519,13 @@ describe('User model', () => {
 
       const user = await User.registerUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         password: 'sample-password',
       });
 
       expect(user).toMatchObject({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         roleId: userRole.id,
       });
 
@@ -1536,7 +1536,7 @@ describe('User model', () => {
       await expect(() =>
         User.registerUser({
           fullName: 'Sample user',
-          email: 'user@automatisch.io',
+          email: 'user@flowline.example',
           password: 'sample-password',
         })
       ).rejects.toThrowError('NotFoundError');
@@ -1592,22 +1592,22 @@ describe('User model', () => {
 
   it('lowercaseEmail should lowercase the user email', () => {
     const user = new User();
-    user.email = 'USER@AUTOMATISCH.IO';
+    user.email = 'USER@FLOWLINE.EXAMPLE';
 
     user.lowercaseEmail();
 
-    expect(user.email).toBe('user@automatisch.io');
+    expect(user.email).toBe('user@flowline.example');
   });
 
   describe('createUsageData', () => {
-    it('should create usage data if Automatisch is a cloud installation', async () => {
+    it('should create usage data if Flowline is a cloud installation', async () => {
       vi.useFakeTimers();
 
       vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
 
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       vi.setSystemTime(DateTime.now().plus({ month: 1 }));
@@ -1620,12 +1620,12 @@ describe('User model', () => {
       vi.useRealTimers();
     });
 
-    it('should not create usage data if Automatisch is not a cloud installation', async () => {
+    it('should not create usage data if Flowline is not a cloud installation', async () => {
       vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(false);
 
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       const usageData = await user.createUsageData();
@@ -1639,7 +1639,7 @@ describe('User model', () => {
       const userRole = await createRole({ name: 'User' });
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         roleId: userRole.id,
       });
 
@@ -1693,7 +1693,7 @@ describe('User model', () => {
       const userRole = await createRole({ name: 'User' });
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         roleId: userRole.id,
       });
 
@@ -1811,16 +1811,16 @@ describe('User model', () => {
     it('should lowercase the user email', async () => {
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'USER@AUTOMATISCH.IO',
+        email: 'USER@FLOWLINE.EXAMPLE',
       });
 
-      expect(user.email).toBe('user@automatisch.io');
+      expect(user.email).toBe('user@flowline.example');
     });
 
     it('should generate password hash', async () => {
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         password: 'sample-password',
       });
 
@@ -1828,27 +1828,27 @@ describe('User model', () => {
       expect(await user.login('sample-password')).toBe(true);
     });
 
-    it('should start trial period if Automatisch is a cloud installation', async () => {
+    it('should start trial period if Flowline is a cloud installation', async () => {
       vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(true);
 
       const startTrialPeriodSpy = vi.spyOn(User.prototype, 'startTrialPeriod');
 
       await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       expect(startTrialPeriodSpy).toHaveBeenCalledOnce();
     });
 
-    it('should not start trial period if Automatisch is not a cloud installation', async () => {
+    it('should not start trial period if Flowline is not a cloud installation', async () => {
       vi.spyOn(appConfig, 'isCloud', 'get').mockReturnValue(false);
 
       const startTrialPeriodSpy = vi.spyOn(User.prototype, 'startTrialPeriod');
 
       await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       expect(startTrialPeriodSpy).not.toHaveBeenCalled();
@@ -1863,7 +1863,7 @@ describe('User model', () => {
 
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       await user.$query().patch({ fullName: 'Updated user name' });
@@ -1874,18 +1874,18 @@ describe('User model', () => {
     it('should lowercase the user email if given', async () => {
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
-      await user.$query().patchAndFetch({ email: 'NEW_EMAIL@AUTOMATISCH.IO' });
+      await user.$query().patchAndFetch({ email: 'NEW_EMAIL@FLOWLINE.EXAMPLE' });
 
-      expect(user.email).toBe('new_email@automatisch.io');
+      expect(user.email).toBe('new_email@flowline.example');
     });
 
     it('should generate password hash', async () => {
       const user = await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
         password: 'sample-password',
       });
 
@@ -1902,7 +1902,7 @@ describe('User model', () => {
 
       await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       expect(superAfterInsertSpy).toHaveBeenCalledOnce();
@@ -1913,7 +1913,7 @@ describe('User model', () => {
 
       await createUser({
         fullName: 'Sample user',
-        email: 'user@automatisch.io',
+        email: 'user@flowline.example',
       });
 
       expect(createUsageDataSpy).toHaveBeenCalledOnce();
@@ -1928,7 +1928,7 @@ describe('User model', () => {
 
     await createUser({
       fullName: 'Sample user',
-      email: 'user@automatisch.io',
+      email: 'user@flowline.example',
     });
 
     expect(

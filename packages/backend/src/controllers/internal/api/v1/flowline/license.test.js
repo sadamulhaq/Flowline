@@ -1,11 +1,11 @@
 import { vi, expect, describe, it } from 'vitest';
 import request from 'supertest';
 import app from '../../../../../app.js';
-import licenseMock from '@/mocks/rest/internal/api/v1/automatisch/license.js';
+import licenseMock from '@/mocks/rest/internal/api/v1/flowline/license.js';
 import * as license from '@/helpers/license.ee.js';
 
-describe('GET /internal/api/v1/automatisch/license', () => {
-  it('should return Automatisch license info', async () => {
+describe('GET /internal/api/v1/flowline/license', () => {
+  it('should return Flowline license info', async () => {
     vi.spyOn(license, 'getLicense').mockResolvedValue({
       id: '123',
       name: 'license-name',
@@ -13,7 +13,7 @@ describe('GET /internal/api/v1/automatisch/license', () => {
     });
 
     const response = await request(app)
-      .get('/internal/api/v1/automatisch/license')
+      .get('/internal/api/v1/flowline/license')
       .expect(200);
 
     const expectedPayload = licenseMock();

@@ -2,11 +2,11 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import MationLogo from 'components/MationLogo';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 
 const DefaultLogo = () => {
-  const { data: automatischInfo, isPending } = useAutomatischInfo();
-  const isMation = automatischInfo?.data.isMation;
+  const { data: flowlineInfo, isPending } = useFlowlineInfo();
+  const isMation = flowlineInfo?.data.isMation;
 
   if (isPending) return <React.Fragment />;
   if (isMation) return <MationLogo />;

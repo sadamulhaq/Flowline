@@ -2,7 +2,7 @@
 
 :::info
 This page explains the steps you need to follow to set up the Odoo
-connection in Automatisch. If any of the steps are outdated, please let us know!
+connection in Flowline. If any of the steps are outdated, please let us know!
 :::
 
 To create a connection, you need to supply the following information:

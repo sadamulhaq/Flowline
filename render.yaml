@@ -1,101 +1,101 @@
 services:
   - type: web
-    name: automatisch-main
+    name: flowline-main
     env: docker
     dockerfilePath: ./docker/Dockerfile
     dockerContext: .
-    repo: https://github.com/automatisch/automatisch
+    repo: https://github.com/sadamulhaq/Flowline
     autoDeploy: false
     envVars:
       - key: HOST
         fromService:
-          name: automatisch-main
+          name: flowline-main
           type: web
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: POSTGRES_HOST
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: host
       - key: POSTGRES_PORT
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: port
       - key: POSTGRES_DATABASE
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: database
       - key: POSTGRES_USERNAME
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: user
       - key: POSTGRES_PASSWORD
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: password
       - key: REDIS_HOST
         fromService:
           type: redis
-          name: automatisch-redis
+          name: flowline-redis
           property: host
       - key: REDIS_PORT
         fromService:
           type: redis
-          name: automatisch-redis
+          name: flowline-redis
           property: port
       - fromGroup: common-env-vars
   - type: worker
-    name: automatisch-worker
+    name: flowline-worker
     env: docker
     dockerfilePath: ./docker/Dockerfile
     dockerContext: .
-    repo: https://github.com/automatisch/automatisch
+    repo: https://github.com/sadamulhaq/Flowline
     autoDeploy: false
     envVars:
       - key: WORKER
         value: true
       - key: HOST
         fromService:
-          name: automatisch-main
+          name: flowline-main
           type: web
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: POSTGRES_HOST
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: host
       - key: POSTGRES_PORT
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: port
       - key: POSTGRES_DATABASE
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: database
       - key: POSTGRES_USERNAME
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: user
       - key: POSTGRES_PASSWORD
         fromDatabase:
-          name: automatisch-database
+          name: flowline-database
           property: password
       - key: REDIS_HOST
         fromService:
           type: redis
-          name: automatisch-redis
+          name: flowline-redis
           property: host
       - key: REDIS_PORT
         fromService:
           type: redis
-          name: automatisch-redis
+          name: flowline-redis
           property: port
       - fromGroup: common-env-vars
   - type: redis
-    name: automatisch-redis
+    name: flowline-redis
     ipAllowList: [] # allow only internal connections
     maxmemoryPolicy: noeviction
 databases:
-  - name: automatisch-database
-    databaseName: automatisch
+  - name: flowline-database
+    databaseName: flowline
 envVarGroups:
   - name: common-env-vars
     envVars:

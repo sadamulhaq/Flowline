@@ -22,7 +22,7 @@ export default defineTrigger({
     const computedWebhookEvent = {
       id: Crypto.randomUUID(),
       sent: null,
-      email: 'user@automatisch.io',
+      email: 'user@flowline.example',
       fields: {
         city: 'City',
         name: 'Name',

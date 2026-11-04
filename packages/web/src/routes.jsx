@@ -35,23 +35,23 @@ import PublicLayout from 'components/PublicLayout';
 import ResetPassword from 'pages/ResetPassword/index.ee';
 import settingsRoutes from './settingsRoutes';
 import useAuthentication from 'hooks/useAuthentication';
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 
 function Routes() {
   const navigate = useNavigate();
-  const { data: automatischInfo, isSuccess } = useAutomatischInfo();
+  const { data: flowlineInfo, isSuccess } = useFlowlineInfo();
   const { isAuthenticated } = useAuthentication();
-  const { data: configData } = useAutomatischConfig();
+  const { data: configData } = useFlowlineConfig();
 
   const config = configData?.data;
 
   const installed = isSuccess
-    ? automatischInfo.data.installationCompleted
+    ? flowlineInfo.data.installationCompleted
     : true;
 
-  const isEnterprise = isSuccess ? automatischInfo.data.isEnterprise : false;
-  const isCloud = isSuccess ? automatischInfo.data.isCloud : false;
+  const isEnterprise = isSuccess ? flowlineInfo.data.isEnterprise : false;
+  const isCloud = isSuccess ? flowlineInfo.data.isCloud : false;
 
   useEffect(() => {
     if (!installed) {

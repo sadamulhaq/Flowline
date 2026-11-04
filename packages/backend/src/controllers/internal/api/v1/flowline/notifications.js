@@ -4,7 +4,7 @@ import logger from '@/helpers/logger.js';
 import appConfig from '@/config/app.js';
 
 export default async (request, response) => {
-  const AUTOMATISCH_NOTIFICATIONS_URL =
+  const FLOWLINE_NOTIFICATIONS_URL =
     'https://notifications.automatisch.io/notifications.json';
 
   const MATION_NOTIFICATIONS_URL =
@@ -12,7 +12,7 @@ export default async (request, response) => {
 
   const NOTIFICATIONS_URL = appConfig.isMation
     ? MATION_NOTIFICATIONS_URL
-    : AUTOMATISCH_NOTIFICATIONS_URL;
+    : FLOWLINE_NOTIFICATIONS_URL;
 
   let notifications = [];
 

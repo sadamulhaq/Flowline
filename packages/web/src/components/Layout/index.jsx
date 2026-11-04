@@ -20,8 +20,8 @@ import useFormatMessage from 'hooks/useFormatMessage';
 import useVersion from 'hooks/useVersion';
 import AppBar from 'components/AppBar';
 import Drawer from 'components/Drawer';
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
-import useAutomatischInfo from 'hooks/useAutomatischInfo';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
+import useFlowlineInfo from 'hooks/useFlowlineInfo';
 import ShutdownAlert from 'components/ShutdownAlert';
 
 import Footer from './Footer';
@@ -114,10 +114,10 @@ const generateDrawerBottomLinks = ({
 
 function PublicLayout({ children }) {
   const version = useVersion();
-  const { data: automatischInfoData } = useAutomatischInfo();
-  const { data: configData } = useAutomatischConfig();
+  const { data: flowlineInfoData } = useFlowlineInfo();
+  const { data: configData } = useFlowlineConfig();
 
-  const automatischInfo = automatischInfoData?.data;
+  const flowlineInfo = flowlineInfoData?.data;
   const config = configData?.data;
 
   const theme = useTheme();
@@ -140,10 +140,10 @@ function PublicLayout({ children }) {
 
   const drawerLinks = React.useMemo(() => {
     return generateDrawerLinks({
-      isEnterprise: automatischInfo?.isEnterprise,
-      isCloud: automatischInfo?.isCloud,
+      isEnterprise: flowlineInfo?.isEnterprise,
+      isCloud: flowlineInfo?.isCloud,
     });
-  }, [automatischInfo?.isEnterprise, automatischInfo?.isCloud]);
+  }, [flowlineInfo?.isEnterprise, flowlineInfo?.isCloud]);
 
   return (
     <>
@@ -170,7 +170,7 @@ function PublicLayout({ children }) {
         <Stack flex={1}>
           <Toolbar />
 
-          {automatischInfo?.isCloud && <ShutdownAlert />}
+          {flowlineInfo?.isCloud && <ShutdownAlert />}
 
           {children}
 

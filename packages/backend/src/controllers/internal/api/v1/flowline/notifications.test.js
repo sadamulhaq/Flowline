@@ -4,15 +4,15 @@ import app from '../../../../../app.js';
 import axios from '@/helpers/axios-with-proxy.js';
 import appConfig from '@/config/app.js';
 
-describe('GET /internal/api/v1/automatisch/notifications', () => {
-  it('should return Automatisch notifications', async () => {
+describe('GET /internal/api/v1/flowline/notifications', () => {
+  it('should return Flowline notifications', async () => {
     await request(app)
-      .get('/internal/api/v1/automatisch/notifications')
+      .get('/internal/api/v1/flowline/notifications')
       .expect(200);
   });
 
-  it('should use Automatisch notifications URL when Mation is not enabled', async () => {
-    const AUTOMATISCH_NOTIFICATIONS_URL =
+  it('should use Flowline notifications URL when Mation is not enabled', async () => {
+    const FLOWLINE_NOTIFICATIONS_URL =
       'https://notifications.automatisch.io/notifications.json';
 
     vi.spyOn(axios, 'get').mockResolvedValueOnce({
@@ -20,10 +20,10 @@ describe('GET /internal/api/v1/automatisch/notifications', () => {
     });
 
     await request(app)
-      .get('/internal/api/v1/automatisch/notifications')
+      .get('/internal/api/v1/flowline/notifications')
       .expect(200);
 
-    expect(axios.get).toHaveBeenCalledWith(AUTOMATISCH_NOTIFICATIONS_URL);
+    expect(axios.get).toHaveBeenCalledWith(FLOWLINE_NOTIFICATIONS_URL);
   });
 
   it('should use Mation notifications URL when Mation is enabled', async () => {
@@ -37,17 +37,17 @@ describe('GET /internal/api/v1/automatisch/notifications', () => {
     });
 
     await request(app)
-      .get('/internal/api/v1/automatisch/notifications')
+      .get('/internal/api/v1/flowline/notifications')
       .expect(200);
 
     expect(axios.get).toHaveBeenCalledWith(MATION_NOTIFICATIONS_URL);
   });
 
-  it('should return no notifications when Automatisch notifications are not available', async () => {
+  it('should return no notifications when Flowline notifications are not available', async () => {
     vi.spyOn(axios, 'get').mockRejectedValueOnce();
 
     const response = await request(app)
-      .get('/internal/api/v1/automatisch/notifications')
+      .get('/internal/api/v1/flowline/notifications')
       .expect(200);
 
     expect(response.body.data).toStrictEqual([]);

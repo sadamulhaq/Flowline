@@ -93,11 +93,11 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
 
   it('should respond with status code, body and headers specified in the respond with action', async () => {
     const response = await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch`
+      `${webhookSyncStep.webhookPath}?name=flowline`
     );
 
     expect(response.status).toBe(422);
-    expect(response.text).toBe('Hey Automatisch, welcome to the party!');
+    expect(response.text).toBe('Hey Flowline, welcome to the party!');
     expect(response.headers['sample-header-one']).toBe('sample-value-one');
     expect(response.headers['sample-header-two']).toBe('sample-value-two');
   });
@@ -105,7 +105,7 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
   it('should create executions', async () => {
     const timeBeforeTheRequest = new Date();
 
-    await request(app).get(`${webhookSyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookSyncStep.webhookPath}?name=flowline`);
 
     const execution = await Execution.query()
       .where('flowId', flow.id)
@@ -120,7 +120,7 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
   it('should create all execution steps without waiting for "delay for" step', async () => {
     const timeBeforeTheRequest = new Date();
 
-    await request(app).get(`${webhookSyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookSyncStep.webhookPath}?name=flowline`);
 
     const execution = await Execution.query()
       .where('flowId', flow.id)
@@ -151,7 +151,7 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
         connection: 'close',
       },
       query: {
-        name: 'automatisch',
+        name: 'flowline',
       },
     });
 
@@ -169,17 +169,17 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
     expect(executionSteps[2].status).toBe('success');
     expect(executionSteps[2].stepId).toBe(formatterStep.id);
     expect(executionSteps[2].dataIn).toMatchObject({
-      input: 'automatisch',
+      input: 'flowline',
       transform: 'capitalize',
     });
     expect(executionSteps[2].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
 
     expect(executionSteps[3].status).toBe('success');
     expect(executionSteps[3].stepId).toBe(respondWithStep.id);
     expect(executionSteps[3].dataIn).toMatchObject({
-      body: 'Hey Automatisch, welcome to the party!',
+      body: 'Hey Flowline, welcome to the party!',
       headers: [
         {
           key: 'sample-header-one',
@@ -193,7 +193,7 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
       statusCode: '422',
     });
     expect(executionSteps[3].dataOut).toMatchObject({
-      body: 'Hey Automatisch, welcome to the party!',
+      body: 'Hey Flowline, welcome to the party!',
       headers: {
         'sample-header-one': 'sample-value-one',
         'sample-header-two': 'sample-value-two',
@@ -208,7 +208,7 @@ describe.sequential('Built-in webhook app sync with delay for', () => {
     const timeBeforeTheRequest = new Date();
 
     const response = await request(app).get(
-      `${webhookSyncStep.webhookPath}?name=automatisch`
+      `${webhookSyncStep.webhookPath}?name=flowline`
     );
 
     expect(response.status).toBe(422);

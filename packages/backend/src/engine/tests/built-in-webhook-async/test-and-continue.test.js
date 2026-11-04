@@ -73,7 +73,7 @@ describe.sequential('Built-in webhook async test and continue', () => {
         delay: '',
         email: '',
         title: '',
-        topic: 'automatisch-test',
+        topic: 'flowline-test',
         attach: '',
         message: `Hey {{step.${formatterStep.id}.output}}, welcome to the party!`,
         filename: '',
@@ -91,7 +91,7 @@ describe.sequential('Built-in webhook async test and continue', () => {
       error: 'invalid request: topic invalid',
     });
 
-    await request(app).get(`${webhookAsyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookAsyncStep.webhookPath}?name=flowline`);
 
     await waitFlowWorkerJobs(flow.id);
 
@@ -121,14 +121,14 @@ describe.sequential('Built-in webhook async test and continue', () => {
     expect(executionSteps[0].status).toBe('success');
     expect(executionSteps[0].dataOut).toMatchObject({
       query: {
-        name: 'automatisch',
+        name: 'flowline',
       },
     });
     expect(executionSteps[0].errorDetails).toBeNull();
 
     expect(executionSteps[1].status).toBe('success');
     expect(executionSteps[1].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
     expect(executionSteps[1].errorDetails).toBeNull();
   });
@@ -139,12 +139,12 @@ describe.sequential('Built-in webhook async test and continue', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
-    await request(app).get(`${webhookAsyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookAsyncStep.webhookPath}?name=flowline`);
 
     await waitFlowWorkerJobs(flow.id);
 
@@ -162,10 +162,10 @@ describe.sequential('Built-in webhook async test and continue', () => {
       event: 'message',
       expires: 1755322502,
       id: 'V63mhF65S68a',
-      message: 'Hey Automatisch, welcome to the party!',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
       time: 1755279302,
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
     });
 
     expect(testedStep.lastExecutionStep.errorDetails).toBeNull();
@@ -178,14 +178,14 @@ describe.sequential('Built-in webhook async test and continue', () => {
     expect(executionSteps[0].status).toBe('success');
     expect(executionSteps[0].dataOut).toMatchObject({
       query: {
-        name: 'automatisch',
+        name: 'flowline',
       },
     });
     expect(executionSteps[0].errorDetails).toBeNull();
 
     expect(executionSteps[1].status).toBe('success');
     expect(executionSteps[1].dataOut).toMatchObject({
-      output: 'Automatisch',
+      output: 'Flowline',
     });
     expect(executionSteps[1].errorDetails).toBeNull();
   });
@@ -196,12 +196,12 @@ describe.sequential('Built-in webhook async test and continue', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
-      message: 'Hey Automatisch, welcome to the party!',
+      topic: 'flowline-test',
+      message: 'Hey Flowline, welcome to the party!',
       priority: 3,
     });
 
-    await request(app).get(`${webhookAsyncStep.webhookPath}?name=automatisch`);
+    await request(app).get(`${webhookAsyncStep.webhookPath}?name=flowline`);
 
     await waitFlowWorkerJobs(flow.id);
 

@@ -66,7 +66,7 @@ export default {
       value: null,
       placeholder: null,
       description:
-        'Screen name of your connection to be used on Automatisch UI.',
+        'Screen name of your connection to be used on Flowline UI.',
       clickToCopy: false,
     },
     {
@@ -87,7 +87,7 @@ export default {
 We have defined two fields for the auth.
 
 - The `apiKey` field will be used to authenticate the requests to the cat API.
-- The `screenName` field will be used to identify the connection on the Automatisch UI.
+- The `screenName` field will be used to identify the connection on the Flowline UI.
 
 :::warning
 You have to add a screen name field in case there is no API endpoint where you can get the username or any other information about the user that you can use as a screen name. Some of the APIs have an endpoint for this purpose like `/me` or `/users/me`, but in our example, the cat API doesn't have such an endpoint.
@@ -149,7 +149,7 @@ You must always provide a `screenName` field to auth data in the `verifyCredenti
 
 ## Is still verified?
 
-We have implemented the `verifyCredentials` method. Now we need to check whether the credentials are still valid or not for the test connection functionality in Automatisch. We will do that by defining the `isStillVerified` method.
+We have implemented the `verifyCredentials` method. Now we need to check whether the credentials are still valid or not for the test connection functionality in Flowline. We will do that by defining the `isStillVerified` method.
 
 Start with adding the `isStillVerified` method to the `auth/index.js` file.
 
@@ -184,7 +184,7 @@ export default isStillVerified;
 `isStillVerified` method needs to return the `truthy` value if the credentials are still valid.
 :::
 
-We will use the `verifyCredentials` method to check whether the credentials are still valid or not. If the credentials are still valid, we will return `true`. Otherwise, it will throw an error which will automatically be handled by Automatisch.
+We will use the `verifyCredentials` method to check whether the credentials are still valid or not. If the credentials are still valid, we will return `true`. Otherwise, it will throw an error which will automatically be handled by Flowline.
 
 :::warning
 You might be wondering why we need to have two separate functions even though we use only one of them behind the scenes in this scenario. That might be true in our example or any other APIs similar to the cat API but there are some other third-party APIs that we can't use the same functionality directly to check whether the credentials are still valid or not. So we need to have two separate functions for verifying the credentials and checking whether the credentials are still valid or not.
@@ -196,6 +196,6 @@ If your integration requires you to connect through the authorization URL of the
 
 ## Test the authentication
 
-Now we have completed the authentication of the cat API. Go to the `My Apps` page in Automatisch, try to add a new connection, select `The Cat API` and use the `API Key` you got with an email. Then you can also check the test connection and reconnect functionality there.
+Now we have completed the authentication of the cat API. Go to the `My Apps` page in Flowline, try to add a new connection, select `The Cat API` and use the `API Key` you got with an email. Then you can also check the test connection and reconnect functionality there.
 
 Let's move on to the next page to build a trigger.

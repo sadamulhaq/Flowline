@@ -4,7 +4,7 @@ To understand how we can create a flow, it's better to start with a real use cas
 
 ## Typeform connection
 
-- Go to the **My Apps** page in Automatisch and click on **Add connection** button.
+- Go to the **My Apps** page in Flowline and click on **Add connection** button.
 - Select the **Typeform** app from the list.
 - It will ask you `Client ID` and `Client Secret` from Typeform and there is an information box above the fields.
 - Click on **our documentation** link in the information box and follow the instructions to get the `Client ID` and `Client Secret` from Typeform.
@@ -13,21 +13,21 @@ To understand how we can create a flow, it's better to start with a real use cas
 Whenever you want to create a connection for an app, you can click on **our documentation** link in the information box to learn how to create a connection for that specific app.
 :::
 
-- After you get the `Client ID` and `Client Secret` from Typeform, you can paste them to the fields in Automatisch and click on **Submit** button.
+- After you get the `Client ID` and `Client Secret` from Typeform, you can paste them to the fields in Flowline and click on **Submit** button.
 
 ## Slack connection
 
-- Go to the **My Apps** page in Automatisch and click on **Add connection** button.
+- Go to the **My Apps** page in Flowline and click on **Add connection** button.
 - Select the **Slack** app from the list.
 - It will ask you `API Key` and `API Secret` values from Slack and there is an information box above the fields.
 - Click on **our documentation** link in the information box and follow the instructions to get the `API Key` and `API Secret` from Slack.
-- After you get the `API Key` and `API Secret` from Slack, you can paste them into the fields in Automatisch and click on **Submit** button.
+- After you get the `API Key` and `API Secret` from Slack, you can paste them into the fields in Flowline and click on **Submit** button.
 
 ## Build the flow
 
 ### Trigger step
 
-- Go to the **Flows** page in Automatisch and click on **Create flow** button.
+- Go to the **Flows** page in Flowline and click on **Create flow** button.
 - It will give you empty trigger and action steps.
 - For the trigger step (1st step), select the **Typeform** app from `Choose an app` dropdown.
 - Select the **New entry** as the trigger event and click on the **Continue** button.

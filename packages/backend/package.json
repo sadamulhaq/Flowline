@@ -1,5 +1,5 @@
 {
-  "name": "@automatisch/backend",
+  "name": "@flowline/backend",
   "license": "See LICENSE file",
   "description": "The open source Zapier alternative. Build workflow automation without spending time and money.",
   "type": "module",
@@ -84,11 +84,11 @@
   },
   "contributors": [
     {
-      "name": "automatisch contributors",
-      "url": "https://github.com/automatisch/automatisch/graphs/contributors"
+      "name": "flowline contributors",
+      "url": "https://github.com/sadamulhaq/Flowline/graphs/contributors"
     }
   ],
-  "homepage": "https://github.com/automatisch/automatisch#readme",
+  "homepage": "https://github.com/sadamulhaq/Flowline#readme",
   "main": "src/server",
   "directories": {
     "bin": "bin",
@@ -101,10 +101,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/automatisch/automatisch.git"
+    "url": "git+https://github.com/sadamulhaq/Flowline.git"
   },
   "bugs": {
-    "url": "https://github.com/automatisch/automatisch/issues"
+    "url": "https://github.com/sadamulhaq/Flowline/issues"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",

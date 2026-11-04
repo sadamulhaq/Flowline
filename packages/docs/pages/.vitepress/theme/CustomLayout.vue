@@ -34,11 +34,11 @@ const { Layout } = DefaultTheme;
     <template #layout-top>
       <div class="announcement-bar">
         <span
-          >⭐ If you like what we are doing with Automatisch, please give us a
+          >⭐ If you like what we are doing with Flowline, please give us a
           star on
           <strong
             ><a
-              href="https://github.com/automatisch/automatisch"
+              href="https://github.com/sadamulhaq/Flowline"
               target="_blank"
               rel="noreferrer"
               >GitHub</a

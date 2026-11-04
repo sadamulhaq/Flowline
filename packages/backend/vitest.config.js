@@ -34,7 +34,7 @@ export default defineConfig({
           teardownTimeout: 3000,
           hookTimeout: 10000,
           exclude: ['**/src/engine/tests/**', '**/node_modules/**'],
-          name: 'automatisch',
+          name: 'flowline',
           setupFiles: ['./test/setup/global-hooks.js'],
         },
       },
@@ -47,7 +47,7 @@ export default defineConfig({
           hookTimeout: 10000,
           include: ['**/src/engine/tests/**/*.test.js'],
           exclude: ['**/node_modules/**'],
-          name: 'automatisch engine',
+          name: 'flowline engine',
           pool: 'threads',
           fileParallelism: false,
           poolOptions: {

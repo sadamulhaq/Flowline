@@ -12,7 +12,7 @@ export default function useAdminUpdateConfig() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['automatisch', 'config'],
+        queryKey: ['flowline', 'config'],
       });
     },
   });

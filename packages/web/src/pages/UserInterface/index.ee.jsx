@@ -13,7 +13,7 @@ import Form from 'components/Form';
 import PageTitle from 'components/PageTitle';
 import TextField from 'components/TextField';
 import useAdminUpdateConfig from 'hooks/useAdminUpdateConfig';
-import useAutomatischConfig from 'hooks/useAutomatischConfig';
+import useFlowlineConfig from 'hooks/useFlowlineConfig';
 import useFormatMessage from 'hooks/useFormatMessage';
 import useEnqueueSnackbar from 'hooks/useEnqueueSnackbar';
 import {
@@ -27,7 +27,7 @@ const getPrimaryDarkColor = (color) => color || primaryDarkColor;
 const getPrimaryLightColor = (color) => color || primaryLightColor;
 
 const defaultValues = {
-  title: 'Automatisch',
+  title: 'Flowline',
   palettePrimaryMain: primaryMainColor,
   palettePrimaryDark: primaryDarkColor,
   palettePrimaryLight: primaryLightColor,
@@ -54,7 +54,7 @@ const mergeIfGiven = (oldValue, newValue) => {
 export default function UserInterface() {
   const formatMessage = useFormatMessage();
   const { mutateAsync: updateConfig, isPending } = useAdminUpdateConfig();
-  const { data: configData, isLoading: configLoading } = useAutomatischConfig();
+  const { data: configData, isLoading: configLoading } = useFlowlineConfig();
   const config = configData?.data;
 
   const enqueueSnackbar = useEnqueueSnackbar();

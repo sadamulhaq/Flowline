@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
-import useAutomatischInfo from './useAutomatischInfo';
+import useFlowlineInfo from './useFlowlineInfo';
 
 export default function useCloud(options) {
   const redirect = options?.redirect || false;
   const navigate = useNavigate();
-  const { data: automatischInfo } = useAutomatischInfo();
+  const { data: flowlineInfo } = useFlowlineInfo();
 
-  const isCloud = automatischInfo?.data.isCloud;
+  const isCloud = flowlineInfo?.data.isCloud;
 
   if (isCloud === false && redirect) {
     navigate('/');

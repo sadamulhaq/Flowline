@@ -377,7 +377,7 @@ async function executeToolFromDatabase(serverId, toolName, parameters) {
 export async function createMcpServer(serverId) {
   const server = new Server(
     {
-      name: 'Automatisch',
+      name: 'Flowline',
       version: '0.0.0',
     },
     {

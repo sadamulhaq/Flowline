@@ -89,7 +89,7 @@ describe.sequential('Scheduler app async', () => {
         delay: '',
         email: '',
         title: 'A new day!',
-        topic: 'automatisch-test',
+        topic: 'flowline-test',
         attach: '',
         message: `{{step.${formatterStep.id}.output}}`,
         filename: '',
@@ -106,7 +106,7 @@ describe.sequential('Scheduler app async', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
       title: 'A new day!',
       message: 'Good Morning!',
       priority: 3,
@@ -271,7 +271,7 @@ describe.sequential('Scheduler app async', () => {
       priority: 3,
       tags: [],
       title: 'A new day!',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
     });
 
     expect(executionSteps[3].dataOut).toMatchObject({
@@ -279,7 +279,7 @@ describe.sequential('Scheduler app async', () => {
       time: 1755279302,
       expires: 1755322502,
       event: 'message',
-      topic: 'automatisch-test',
+      topic: 'flowline-test',
       message: 'Good Morning!',
       priority: 3,
     });
