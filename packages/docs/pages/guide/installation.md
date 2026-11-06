@@ -51,16 +51,22 @@ Flowline comes with two services which are `main` and `worker`. They both use th
 We give the sample environment variable files for the setup but you should adjust them to include your own values.
 :::
 
+Build the image from the repository root:
+
+```bash
+docker build -f docker/Dockerfile -t flowline .
+```
+
 To run the main:
 
 ```bash
-docker run --env-file=./.env automatischio/automatisch
+docker run --env-file=./.env flowline
 ```
 
 To run the worker:
 
 ```bash
-docker run --env-file=./.env -e WORKER=true automatischio/automatisch
+docker run --env-file=./.env -e WORKER=true flowline
 ```
 
 ::: details .env
