@@ -35,6 +35,8 @@ You can use `user@flowline.example` email address and `sample` password to login
 
 For other installation types, you can check the [installation guide](packages/docs/pages/guide/installation.md).
 
+Forgot your password? Run `yarn db:reset:password you@example.com` in `packages/backend` and enter a new one.
+
 ## Support
 
 If you have any questions or problems, please visit our GitHub issues page, and we'll try to help you as soon as possible.

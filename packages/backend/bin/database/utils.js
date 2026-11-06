@@ -143,3 +143,11 @@ export const dropDatabaseAndUser = async (
   await client.query(`DROP USER IF EXISTS ${user}`);
   logger.info(`Database User: ${user} removed!`);
 };
+
+export const resetPassword = async (email, password) => {
+  const user = await User.query()
+    .findOne({ email: email.toLowerCase() })
+    .throwIfNotFound();
+
+  await user.$query().patch({ password });
+};
