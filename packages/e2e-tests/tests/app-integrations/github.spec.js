@@ -1,6 +1,8 @@
 const { test, expect } = require('../../fixtures');
 
 test('Github OAuth integration', async ({ page, applicationsPage }) => {
+  test.skip(!process.env.GITHUB_CLIENT_ID, 'Needs a GitHub OAuth app');
+
   const githubConnectionPage = await test.step(
     'Navigate to github connections modal',
     async () => {
