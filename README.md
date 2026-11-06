@@ -35,7 +35,11 @@ You can use `user@flowline.example` email address and `sample` password to login
 
 For other installation types, you can check the [installation guide](packages/docs/pages/guide/installation.md).
 
-Forgot your password? Run `yarn db:reset:password you@example.com` in `packages/backend` and enter a new one.
+Forgot your password? Run this while the app is up and enter a new one:
+
+```bash
+docker compose exec main sh -c 'export $(grep -v "^#" /flowline/storage/.env | xargs); cd packages/backend && yarn db:reset:password you@example.com'
+```
 
 ## Support
 

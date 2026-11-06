@@ -2,8 +2,8 @@ version: '3.9'
 services:
   main:
     build:
-      context: ./docker
-      dockerfile: Dockerfile.compose
+      context: .
+      dockerfile: docker/Dockerfile
     entrypoint: /compose-entrypoint.sh
     ports:
       - '3000:3000'
@@ -29,8 +29,8 @@ services:
       - flowline_storage:/flowline/storage
   worker:
     build:
-      context: ./docker
-      dockerfile: Dockerfile.compose
+      context: .
+      dockerfile: docker/Dockerfile
     entrypoint: /compose-entrypoint.sh
     depends_on:
       - main
