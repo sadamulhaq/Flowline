@@ -6,6 +6,8 @@ ENV PORT=3000
 RUN \
   apk --no-cache add --virtual build-dependencies python3 build-base git make g++
 
+RUN apk --no-cache add openssl dos2unix
+
 WORKDIR /flowline
 
 # copy the app, note .dockerignore
@@ -22,6 +24,8 @@ RUN \
   apk del build-dependencies
 
 COPY ./docker/entrypoint.sh /entrypoint.sh
+COPY ./docker/compose-entrypoint.sh /compose-entrypoint.sh
+RUN dos2unix /entrypoint.sh /compose-entrypoint.sh && chmod +x /compose-entrypoint.sh
 
 EXPOSE 3000
 ENTRYPOINT ["sh", "/entrypoint.sh"]
